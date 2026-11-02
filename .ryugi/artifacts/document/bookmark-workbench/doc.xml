@@ -1,0 +1,658 @@
+<doc>
+  <h1 id="603cVTe1">TwitBookmark：个人书签工作台</h1>
+  <p id="Y95YdTAl">这是最终设计。确认后我再开始搭；觉得哪里不对，直接在页面上改，或在终端告诉我。</p>
+  <h2 id="evmxRn_o">一句话</h2>
+  <p id="j8DjaVIH">把推特书签、浏览器收藏、GitHub 星标收进一个本地网页应用：推特按日期消化，浏览器和 GitHub 当库来清理；键盘操作，AI 只出建议，数据全部留在本机。</p>
+  <h2 id="n6iMz7LB">为什么做</h2>
+  <p id="LbNRmgeO">你保存书签的起点是「刷推特时看到一个可能用得上的东西，先存下来」。问题是存完就不会再看，过一阵忘了，彻底吃灰。浏览器收藏和 GitHub 星标也一样：数量越多，越记不起自己存过什么。</p>
+  <p id="8VHse2_A">所以这不是一个更好看的收藏夹，而是一条能消化的流程：每天花不超过 10 分钟，把新内容过一遍；旧内容主动回看；库里的东西定期清理。AI 负责初筛，你负责判断。</p>
+  <h2 id="MsdhPXsO">目标</h2>
+  <ul id="ppkPhJxr">
+    <li>每天 10 分钟内处理完当天的新推特书签。</li>
+    <li>浏览器和 GitHub 的库可搜索、可批量清理、可打标签。</li>
+    <li>旧内容能主动回到眼前，不靠你记得。</li>
+    <li>所有数据本地存储；外网只碰三处：GitHub（gh）、本机 LM Studio、导入时下载推特缩略图。</li>
+  </ul>
+  <h2 id="m1VTTH7Z">非目标</h2>
+  <ul id="vzl8mo2J">
+    <li>不做多人协作、云同步、手机端。</li>
+    <li>不抓推特，不写回 Chrome，不在 GitHub 上取消 star。</li>
+    <li>不自动删除任何内容，不做全自动 AI 整理。</li>
+  </ul>
+  <h2 id="_xetYSA8">反目标</h2>
+  <ul id="V-KhZ30f">
+    <li>做成另一个需要管理的收件箱。</li>
+    <li>每天花超过 10 分钟。</li>
+    <li>误删内容找不回来。</li>
+  </ul>
+  <h2 id="mOaw7CHX">使用流程</h2>
+  <table id="FS1hT8t5">
+    <tr>
+      <th>
+        <p>时机</p>
+      </th>
+      <th>
+        <p>做什么</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p>首次</p>
+      </td>
+      <td>
+        <p>导入三类数据 → 在库里手动清理 → 用 LM Studio 做一次 AI 分类</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>每天</p>
+      </td>
+      <td>
+        <p>导入最新导出，打开推特流，过待处理的收藏，再看 2–3 条回看的旧收藏；勾选、改状态、标记要做的</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>偶尔</p>
+      </td>
+      <td>
+        <p>进库搜索、批量清理、重新同步 GitHub 星标</p>
+      </td>
+    </tr>
+  </table>
+  <h2 id="Ir3Hculb">信息架构</h2>
+  <p id="KHYqupHD">一个应用，两个空间，外加设置页。</p>
+  <table id="mrP2dgKK">
+    <tr>
+      <th>
+        <p>空间</p>
+      </th>
+      <th>
+        <p>放什么</p>
+      </th>
+      <th>
+        <p>主要操作</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p>推特流 <code>/</code></p>
+      </td>
+      <td>
+        <p>推特书签，按推文发布时间分组；下方是每日回看</p>
+      </td>
+      <td>
+        <p>逐条过、勾选、改状态、标记待办、打开原推</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>库 <code>/library</code></p>
+      </td>
+      <td>
+        <p>浏览器收藏和 GitHub 星标，按来源筛选</p>
+      </td>
+      <td>
+        <p>搜索、批量清理、打标签、改状态</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>设置 <code>/settings</code></p>
+      </td>
+      <td>
+        <p>导入、GitHub 同步、LM Studio、键位说明</p>
+      </td>
+      <td>
+        <p>配置</p>
+      </td>
+    </tr>
+  </table>
+  <mermaid id="2XO8YACs">flowchart LR
+  T[&quot;推特 JSON&quot;] --&gt; IMP[&quot;导入器&quot;]
+  B[&quot;浏览器 HTML&quot;] --&gt; IMP
+  G[&quot;gh CLI&quot;] --&gt; IMP
+  IMP --&gt; DB[(&quot;SQLite&quot;)]
+  DB --&gt; API[&quot;本地 API&quot;]
+  API --&gt; UI[&quot;浏览器界面&quot;]
+  UI --&gt; LM[&quot;LM Studio localhost:1234&quot;]
+  LM --&gt; UI</mermaid>
+  <h2 id="hcq9YO_Q">数据模型</h2>
+  <p id="4Zj22BrU">SQLite 单文件，默认 <code>data/bookmarks.db</code>。条目统一成一张表，来源只作为字段，不为每个来源建一套。</p>
+  <codeblock id="N4aWkoJ1" lang="sql">CREATE TABLE items (
+  id            TEXT PRIMARY KEY,
+  source        TEXT NOT NULL CHECK (source IN (&apos;twitter&apos;,&apos;browser&apos;,&apos;github&apos;)),
+  title         TEXT NOT NULL,
+  url           TEXT NOT NULL,
+  created_at    TEXT,
+  saved_at      TEXT NOT NULL,
+  saved_source  TEXT CHECK (saved_source IN (&apos;tweet_created&apos;,&apos;browser_added&apos;,&apos;first_seen&apos;)),
+  imported_at   TEXT NOT NULL,
+  status        TEXT NOT NULL DEFAULT &apos;inbox&apos;
+                CHECK (status IN (&apos;inbox&apos;,&apos;later&apos;,&apos;done&apos;,&apos;reference&apos;)),
+  read          INTEGER NOT NULL DEFAULT 0,
+  is_todo       INTEGER NOT NULL DEFAULT 0,
+  todo_done     INTEGER NOT NULL DEFAULT 0,
+  metadata      TEXT NOT NULL DEFAULT &apos;{}&apos;,
+  ai_tags       TEXT NOT NULL DEFAULT &apos;[]&apos;,
+  ai_summary    TEXT,
+  summary       TEXT,
+  ai_state      TEXT NOT NULL DEFAULT &apos;none&apos;
+                CHECK (ai_state IN (&apos;none&apos;,&apos;suggested&apos;,&apos;accepted&apos;)),
+  last_surfaced_at TEXT,
+  deleted_at    TEXT
+);
+
+CREATE TABLE tags (
+  id    INTEGER PRIMARY KEY,
+  name  TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE item_tags (
+  item_id  TEXT NOT NULL REFERENCES items(id),
+  tag_id   INTEGER NOT NULL REFERENCES tags(id),
+  PRIMARY KEY (item_id, tag_id)
+);
+
+CREATE TABLE ai_jobs (
+  id         TEXT PRIMARY KEY,
+  kind       TEXT NOT NULL,
+  status     TEXT NOT NULL,
+  total      INTEGER NOT NULL,
+  done       INTEGER NOT NULL DEFAULT 0,
+  error      TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE settings (
+  key   TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
+CREATE VIRTUAL TABLE items_fts USING fts5(
+  id UNINDEXED, title, text, summary
+);</codeblock>
+  <p id="WtjayL0l">字段含义：</p>
+  <ul id="7lkKEqwy">
+    <li><code>created_at</code>：来源本身的日期（推文发布时间、浏览器 ADD_DATE、仓库更新时间）。</li>
+    <li><code>saved_at</code>：时间线分组用的日期；<code>saved_source</code> 记录它来自推文发布时间、浏览器 ADD_DATE，还是第一次导入时间。</li>
+    <li><code>status</code>：收件箱 / 稍后 / 已消化 / 备查。每天处理的是「收件箱」。</li>
+    <li><code>read</code>：勾选，代表「我看过了」，和状态分开。</li>
+    <li><code>is_todo</code>：这条是要去做的事；只有它为真时才显示「做了」。</li>
+    <li><code>todo_done</code>：「做了」的勾。</li>
+    <li><code>ai_tags</code> / <code>ai_summary</code>：AI 的建议，未确认；确认后写入 <code>item_tags</code> 并置 <code>ai_state=&apos;accepted&apos;</code>。</li>
+    <li><code>summary</code>：你编辑或确认后的摘要；重跑 AI 只更新 <code>ai_summary</code>，不覆盖它。</li>
+    <li><code>deleted_at</code>：软删除；进回收站，可恢复，不会自动清理。</li>
+  </ul>
+  <alert id="XgJ_0aaU" type="note">
+    <p>AI 建议和你的确认分两层存，重跑模型或换模型不会覆盖你已整理好的标签和摘要。</p>
+  </alert>
+  <h2 id="ujl_SrKQ">数据来源</h2>
+  <h3 id="_m2HlQsY">推特</h3>
+  <ul id="29GSfg9O">
+    <li>导入你现有的 JSON 数组；字段按当前文件（id、created_at、full_text、media、screen_name、name、url 等）读取。</li>
+    <li>所有推特条目都用推文发布时间 <code>created_at</code> 作为 <code>saved_at</code>，历史和新导入一致，标记 <code>tweet_created</code>。</li>
+    <li>建议每天或每两三天导出一次；把 JSON 放进 <code>data/imports/</code> 会自动扫描，也可以在设置页手动选文件。</li>
+    <li>按推文 <code>id</code> 幂等：重复导入只更新，不重复插入。</li>
+    <li>应用不抓推特页面，也不做登录。</li>
+    <li>媒体缩略图在导入时下载到 <code>data/media/</code>，失败则显示占位图；不热链。</li>
+  </ul>
+  <h3 id="7rQc5zx1">浏览器收藏</h3>
+  <ul id="z0cHK-bq">
+    <li>导入 Netscape 格式的 HTML 导出；只取链接标题、URL、ADD_DATE。</li>
+    <li><code>saved_at</code> 用 ADD_DATE；没有 ADD_DATE 时用导入时间。</li>
+    <li>不沿用原有文件夹结构。</li>
+    <li>URL 规范化后去重：主机小写、去默认端口、去末尾斜杠、去掉 utm_* 和 fbclid 等跟踪参数。当前 1730 条会去重到约 1390 条。</li>
+    <li>ID 用规范化 URL 的 SHA-1 前 12 位。</li>
+    <li>只读：应用里的删除只影响本地副本，不动 Chrome。</li>
+  </ul>
+  <h3 id="UhNMXPCF">GitHub 星标</h3>
+  <ul id="YL0bhTY5">
+    <li>用你已登录的 <code>gh</code> CLI 抓取，不在应用里存 token。</li>
+    <li>命令：<code>gh api &apos;user/starred?per_page=100&apos; --paginate --slurp</code>，解析仓库对象。</li>
+    <li>取 <code>full_name</code>、<code>description</code>、<code>language</code>、<code>stargazers_count</code>、<code>html_url</code>、<code>topics</code>、<code>updated_at</code>。</li>
+    <li>ID 用 <code>gh:owner/repo</code>；<code>saved_at</code> 用导入时间，标记 <code>first_seen</code>；再次同步只新增和更新，不删除你已经在工具里整理过的条目。</li>
+    <li>本机已确认：<code>gh</code> 2.96.0，已登录，<code>user/starred</code> 可读。</li>
+  </ul>
+  <h2 id="4N2eXIdi">状态与标签</h2>
+  <p id="cCLxmJ7d">四个状态：收件箱、稍后、已消化、备查。勾选和状态是两件事；「做了」只对待办条目出现。</p>
+  <table id="aOfV437H">
+    <tr>
+      <th>
+        <p>动作</p>
+      </th>
+      <th>
+        <p>效果</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p>勾选</p>
+      </td>
+      <td>
+        <p><code>read=1</code>；在快速过一遍里会自动跳下一条</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>稍后</p>
+      </td>
+      <td>
+        <p><code>status=&apos;later&apos;</code>；之后会进回看池</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>备查</p>
+      </td>
+      <td>
+        <p><code>status=&apos;reference&apos;</code>；平时不打扰，靠搜索和回看找回</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>已消化</p>
+      </td>
+      <td>
+        <p><code>status=&apos;done&apos;</code>；从待处理里消失</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>标为待办</p>
+      </td>
+      <td>
+        <p><code>is_todo=1</code>；出现「做了」勾选</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>做了</p>
+      </td>
+      <td>
+        <p><code>todo_done=1</code>；不改变状态</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>移除</p>
+      </td>
+      <td>
+        <p>软删除，进回收站；<code>u</code> 可撤销上一步，回收站里可恢复；不动来源</p>
+      </td>
+    </tr>
+  </table>
+  <h3 id="jxyLP48s">撤销与回收站</h3>
+  <ul id="xiHyEii5">
+    <li><code>u</code> 撤销当前会话的最后一次条目变更（勾选、状态、标签、移除）；一次批量操作算一步。</li>
+    <li>移除的条目进回收站，在 <code>/library?deleted=1</code> 查看和恢复；不会自动清理。</li>
+    <li>10 秒提示只是快捷入口；之后仍可在回收站恢复。</li>
+  </ul>
+  <h2 id="LujebYxG">核心界面</h2>
+  <h3 id="pt2k6Kw1">推特流</h3>
+  <ul id="98fMRpya">
+    <li>按 <code>saved_at</code>（推文发布时间）分组，新发布的在最上面；每张卡片显示作者、头像、正文、媒体缩略图、发布日期、状态、标签和勾选。</li>
+    <li>顶部显示「待处理 N 条」和「快速过一遍」。</li>
+    <li>「待处理」是收件箱（<code>inbox</code>）的全部条目，包括刚导入但发布时间较早的推文；新导入的直接进队列，不看发布日。</li>
+    <li>下方是「回看」：每天 2–3 条旧收藏，14 天内不重复；优先从没回看过的、稍后和备查里抽。</li>
+    <li>筛选：状态、标签、搜索。</li>
+  </ul>
+  <h3 id="PRl8Nneq">快速过一遍</h3>
+  <ul id="UspE4Gbu">
+    <li>一次一条卡片，居中的阅读宽度，底部固定显示键位提示。</li>
+    <li><code>j</code> / <code>k</code> 上一条/下一条，<code>x</code> 勾选并下一条，<code>c</code> 已消化并下一条，<code>s</code> 稍后并下一条，<code>e</code> 备查并下一条，<code>d</code> 移除，<code>t</code> 打标签，<code>o</code> 打开原推，<code>Esc</code> 退出。</li>
+    <li>所有移除都有撤销；处理完最后一条显示小结。</li>
+  </ul>
+  <h3 id="UkiIUZg8">库</h3>
+  <ul id="P3Ktvcji">
+    <li>默认表格：标题、来源图标、域名/仓库、标签、状态、日期。</li>
+    <li>来源筛选（浏览器 / GitHub）、标签筛选、全文搜索。</li>
+    <li>清理模式：一屏 10 条，<code>j</code> / <code>k</code> 移动，<code>Space</code> 多选，<code>a</code> 全选本屏，<code>d</code> 移除，<code>t</code> 打标签，<code>s</code> 稍后，<code>e</code> 备查，<code>c</code> 已消化，<code>Enter</code> 打开，<code>Esc</code> 退出。</li>
+    <li>浏览器和 GitHub 共用这个空间，只靠来源筛选区分；不共用推特的日期时间线。</li>
+  </ul>
+  <h2 id="3o_-Wakx">AI 分类</h2>
+  <ol id="Fz2O6Rbo">
+    <li>设置里填 LM Studio 地址（默认 <code>http://localhost:1234/v1</code>），应用读取 <code>/models</code> 让你选一个模型。</li>
+    <li>第一次：从三类来源各抽一些，凑 30–50 条，让模型提出 10–15 个中文标签和定义；你在界面里删改确认。</li>
+    <li>确认后分批跑全量，每批 30 条；每条给 1–3 个标签和一句不超过 120 字的摘要。</li>
+    <li>只发标题和 URL；GitHub 额外发仓库描述和语言；不抓网页正文。</li>
+    <li>结果先存为「建议」；你在库里接受、修改或忽略。标签和摘要都可以改；你的修改永远覆盖 AI 的建议。</li>
+    <li>任务可暂停、继续；LM Studio 没开时显示明确提示，不影响其他功能。</li>
+  </ol>
+  <alert id="vaBvflsd" type="tip">
+    <p>先手动清理再分类：删掉不需要的，模型要标的条目更少，标签也更干净。</p>
+  </alert>
+  <h2 id="Xxd99RY4">键位</h2>
+  <table id="W_ybpmyt">
+    <tr>
+      <th>
+        <p>键</p>
+      </th>
+      <th>
+        <p>作用</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p><code>?</code></p>
+      </td>
+      <td>
+        <p>键位帮助</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>/</code></p>
+      </td>
+      <td>
+        <p>搜索</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>g t</code> / <code>g l</code> / <code>g s</code></p>
+      </td>
+      <td>
+        <p>去推特流 / 库 / 设置</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>j</code> / <code>k</code></p>
+      </td>
+      <td>
+        <p>下一条 / 上一条</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>x</code></p>
+      </td>
+      <td>
+        <p>勾选「看过」；库里是多选</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>c</code></p>
+      </td>
+      <td>
+        <p>已消化（归档）</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>s</code> / <code>e</code></p>
+      </td>
+      <td>
+        <p>稍后 / 备查</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>d</code></p>
+      </td>
+      <td>
+        <p>移除（可撤销）</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>t</code></p>
+      </td>
+      <td>
+        <p>打标签</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>o</code> / <code>Enter</code></p>
+      </td>
+      <td>
+        <p>打开原链接</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>u</code></p>
+      </td>
+      <td>
+        <p>撤销上一步</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>Esc</code></p>
+      </td>
+      <td>
+        <p>关闭弹层 / 退出模式</p>
+      </td>
+    </tr>
+  </table>
+  <h2 id="sA_heDze">技术方案</h2>
+  <ul id="v8tycJYp">
+    <li>Node 24 + TypeScript，包管理用 pnpm 11。</li>
+    <li>后端 Fastify + better-sqlite3 + zod；前端 React + Vite + 手写 CSS 变量，不引组件库，保证键盘和焦点可控。</li>
+    <li>开发：<code>pnpm dev</code> 同时跑 Vite 和后端；使用：<code>pnpm build</code> 后 <code>pnpm start</code>，或双击 <code>start.bat</code>。</li>
+    <li>端口 <code>4317</code>；数据库 <code>data/bookmarks.db</code>；导入文件放 <code>data/imports/</code>。</li>
+    <li>测试：Vitest 做单元和 API 测试；Playwright 只覆盖键盘主流程的冒烟。</li>
+  </ul>
+  <codeblock id="H0_Zug9Q" lang="text">TwitBookmark/
+  package.json
+  start.bat
+  data/
+    bookmarks.db
+    imports/
+  src/
+    server/
+      index.ts
+      db.ts
+      schema.sql
+      importers/
+        twitter.ts
+        browser.ts
+        github.ts
+      routes/
+        items.ts
+        imports.ts
+        ai.ts
+        settings.ts
+      ai/
+        lmstudio.ts
+        taxonomy.ts
+        classify.ts
+    web/
+      main.tsx
+      App.tsx
+      routes/
+        Twitter.tsx
+        Library.tsx
+        Settings.tsx
+      components/
+        ItemCard.tsx
+        Timeline.tsx
+        LibraryTable.tsx
+        QuickPass.tsx
+        TagPicker.tsx
+        Keymap.tsx
+      lib/
+        api.ts
+        keys.ts
+        tokens.css
+  tests/
+    importers.test.ts
+    items.test.ts
+    ai.test.ts</codeblock>
+  <h2 id="QBFM7tCr">API</h2>
+  <table id="oEHbBGER">
+    <tr>
+      <th>
+        <p>路由</p>
+      </th>
+      <th>
+        <p>作用</p>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <p><code>GET /api/items</code></p>
+      </td>
+      <td>
+        <p>列表；source、status、tag、q、deleted、cursor 筛选</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>PATCH /api/items/:id</code></p>
+      </td>
+      <td>
+        <p>改 status、read、is_todo、todo_done</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/items/:id/tags</code></p>
+      </td>
+      <td>
+        <p>确认标签</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/items/:id/restore</code></p>
+      </td>
+      <td>
+        <p>从回收站恢复</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/import/twitter</code></p>
+      </td>
+      <td>
+        <p>导入推特 JSON</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/import/browser</code></p>
+      </td>
+      <td>
+        <p>导入浏览器 HTML</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/sync/github</code></p>
+      </td>
+      <td>
+        <p>抓取 GitHub 星标</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/ai/taxonomy</code></p>
+      </td>
+      <td>
+        <p>抽样并生成标签提案</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>POST /api/ai/classify</code></p>
+      </td>
+      <td>
+        <p>启动全量分类任务</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>GET /api/ai/jobs/:id</code></p>
+      </td>
+      <td>
+        <p>查询进度</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>GET /api/review/daily</code></p>
+      </td>
+      <td>
+        <p>取每日回看条目</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>GET /api/tags</code></p>
+      </td>
+      <td>
+        <p>标签列表</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>GET/PUT /api/settings</code></p>
+      </td>
+      <td>
+        <p>设置</p>
+      </td>
+    </tr>
+  </table>
+  <h2 id="c-oGRnJt">视觉方向</h2>
+  <p id="xR-fVBzz">「阅读桌」风格：暖白纸底色、近黑墨色文字、一个陶土色强调色；浅色和深色跟随系统。标题用 Segoe UI Variable，日期、键位和元数据用 Cascadia Code。少用卡片阴影，用细分隔线和留白分区；焦点框必须清楚。这是我这边的决定，之后可以单独做一版界面调整。</p>
+  <h2 id="9MCWI4Gv">验收</h2>
+  <ul id="hN6Z78Sl">
+    <li>能导入 48 条推特、1730 条浏览器链接（去重后约 1390 条）、676 条 GitHub 星标。</li>
+    <li>全天只用键盘就能完成：过新收藏、勾选、改状态、打标签、清理。</li>
+    <li>LM Studio 分类能产出标签和摘要，建议可编辑、可忽略，你的修改不被覆盖。</li>
+    <li>删除可撤销；不写回 Chrome，不取消 GitHub star。</li>
+    <li>单元和 API 测试全绿。</li>
+  </ul>
+  <h2 id="2ryY4Nct">先做什么</h2>
+  <ol id="cz74hriQ">
+    <li>搭项目骨架、SQLite 表、三个导入器。</li>
+    <li>库的表格、清理模式和键盘。</li>
+    <li>推特时间线、快速过一遍、状态。</li>
+    <li>每日回看。</li>
+    <li>LM Studio 分类任务。</li>
+    <li>设置、视觉打磨、测试。</li>
+  </ol>
+  <h2 id="qxZzlknm">已经定下的（你说的）</h2>
+  <ul id="v6hq99tm">
+    <li>推特书签按推文发布时间分组成时间线。</li>
+    <li>所有推特条目统一按推文发布时间分组（你说的）。</li>
+    <li>每条内容旁边有勾选项。</li>
+    <li>需要收件箱、稍后、已消化、备查四个固定状态；自定义分组用标签。</li>
+    <li>存在「有备无患」的备查类，平时不打扰。</li>
+    <li>标签加按标签筛选，作为找回方式之一。</li>
+    <li>每天在新收藏之外，回看 2–3 条旧收藏。</li>
+    <li>每天最多花 10 分钟。</li>
+    <li>先自己筛一遍、删掉不需要的，再用 AI 做初始分类。</li>
+    <li>分类走本地 LM Studio 的 OpenAI 兼容接口。</li>
+    <li>GitHub 星标也纳入管理，很多已经不需要，想先清理。</li>
+    <li>只读导入，不回写；浏览器和 GitHub 都在工具里管理。</li>
+    <li>浏览器和 GitHub 共用「库」空间，推特保持独立的流。</li>
+    <li>形态是本地 Web 应用。</li>
+    <li>推特只导入现有 JSON，应用不自己抓取。</li>
+    <li>快速过一遍是一次一条卡片，Vim 键位。</li>
+    <li>勾选代表「我看过了」，和状态分开；「做了」只对待办条目出现。</li>
+    <li>AI 先抽 30–50 条提标签，确认后再分批跑全量；AI 只出建议。</li>
+  </ul>
+  <h2 id="oBniBLeW">我替你定的（可改）</h2>
+  <ul id="z_gHzPRG">
+    <li>技术栈：Node 24 + TypeScript、Fastify、better-sqlite3、React + Vite，pnpm。</li>
+    <li>端口 4317，数据库 data/bookmarks.db。</li>
+    <li>删除是软删除，进回收站；当前会话的变更可用 u 撤销，回收站不自动清理。</li>
+    <li>四个状态固定；自定义分组用标签。</li>
+    <li>AI 摘要也分建议/确认两层。</li>
+    <li>推特媒体缩略图在导入时下载到本地。</li>
+    <li>导入保持现有导出工具：每天或每两三天导出一次；data/imports/ 自动扫描，也可手动导入。</li>
+    <li>浏览器 URL 规范化并去重，忽略原文件夹结构。</li>
+    <li>GitHub 同步只新增/更新，不删除已有整理结果。</li>
+    <li>每日回看 2–3 条，14 天内不重复，优先没回看过的稍后和备查。</li>
+    <li>视觉方向为「阅读桌」：暖白、墨黑、陶土色强调。</li>
+    <li>全文搜索用 SQLite FTS5。</li>
+  </ul>
+</doc>
+
