@@ -89,10 +89,6 @@ export function registerTagRoutes(app: FastifyInstance, db: Database): void {
           tag.id,
         );
       }
-      db.prepare(
-        `UPDATE items SET ai_state = CASE WHEN ai_state = 'suggested' THEN 'accepted' ELSE ai_state END
-         WHERE id = ?`,
-      ).run(id);
     });
     command();
 

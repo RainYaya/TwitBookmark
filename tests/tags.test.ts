@@ -78,6 +78,24 @@ describe('tags API', () => {
     expect(list.json().tags.map((tag: { name: string }) => tag.name).sort()).toEqual(['AI', '工具']);
   });
 
+  it('keeps an unaccepted AI suggestion when tags are edited by hand', async () => {
+    db.prepare(
+      `UPDATE items SET ai_state = 'suggested', ai_tags = '["AI"]', ai_summary = 'AI 摘要'
+       WHERE id = 'a'`,
+    ).run();
+
+    const res = await app.inject({
+      method: 'POST',
+      url: '/api/items/a/tags',
+      payload: { tags: ['手工标签'] },
+    });
+
+    expect(res.json().tags).toEqual(['手工标签']);
+    expect(res.json().ai_state).toBe('suggested');
+    expect(res.json().ai_tags).toEqual(['AI']);
+    expect(res.json().ai_summary).toBe('AI 摘要');
+  });
+
   it('renames and deletes tags without deleting items', async () => {
     await app.inject({
       method: 'POST',
