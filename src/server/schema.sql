@@ -1,5 +1,12 @@
 PRAGMA foreign_keys = ON;
 
+CREATE TABLE IF NOT EXISTS collections (
+  id         TEXT PRIMARY KEY,
+  name       TEXT NOT NULL UNIQUE,
+  position   INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS items (
   id            TEXT PRIMARY KEY,
   source        TEXT NOT NULL CHECK (source IN ('twitter','browser','github')),
@@ -21,7 +28,8 @@ CREATE TABLE IF NOT EXISTS items (
   ai_state      TEXT NOT NULL DEFAULT 'none'
                 CHECK (ai_state IN ('none','suggested','accepted')),
   last_surfaced_at TEXT,
-  deleted_at    TEXT
+  deleted_at    TEXT,
+  collection_id TEXT REFERENCES collections(id) ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_items_saved ON items(saved_at DESC, id DESC);

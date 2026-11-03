@@ -5,9 +5,10 @@ export interface ReviewStripProps {
   items: Item[];
   onPatch?: (item: Item, patch: ItemPatch) => void;
   onTag?: (item: Item) => void;
+  onAcceptAi?: (item: Item) => void;
 }
 
-export function ReviewStrip({ items, onPatch, onTag }: ReviewStripProps) {
+export function ReviewStrip({ items, onPatch, onTag, onAcceptAi }: ReviewStripProps) {
   return (
     <section className="review-strip" aria-label="回看">
       <h2>回看</h2>
@@ -21,6 +22,7 @@ export function ReviewStrip({ items, onPatch, onTag }: ReviewStripProps) {
               item={item}
               onPatch={onPatch ? (patch) => onPatch(item, patch) : undefined}
               onTag={onTag ? () => onTag(item) : undefined}
+              onAcceptAi={onAcceptAi ? () => onAcceptAi(item) : undefined}
             />
           ))}
         </div>

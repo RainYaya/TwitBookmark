@@ -13,6 +13,7 @@ const itemPatchSchema = z
     is_todo: z.boolean().optional(),
     todo_done: z.boolean().optional(),
     summary: z.string().max(4000).nullable().optional(),
+    collection_id: z.string().min(1).nullable().optional(),
   })
   .strict()
   .refine((value) => Object.keys(value).length > 0, { message: 'no fields to update' });
@@ -21,6 +22,9 @@ const querySchema = z.object({
   source: z.union([sourceSchema, z.array(sourceSchema)]).optional(),
   status: statusSchema.optional(),
   tag: z.string().trim().min(1).max(40).optional(),
+  collection: z.string().trim().min(1).max(64).optional(),
+  ai: z.enum(['none', 'suggested', 'accepted']).optional(),
+  noted: z.enum(['1', 'true']).optional(),
   q: z.string().trim().min(1).max(200).optional(),
   deleted: z.string().optional(),
   cursor: z.string().optional(),
@@ -39,6 +43,8 @@ const acceptAiSchema = z
     source: z.union([sourceSchema, z.array(sourceSchema)]).optional(),
     status: statusSchema.optional(),
     tag: z.string().trim().min(1).max(40).optional(),
+    collection: z.string().trim().min(1).max(64).optional(),
+    ai: z.enum(['none', 'suggested', 'accepted']).optional(),
     q: z.string().trim().min(1).max(200).optional(),
   })
   .strict();
@@ -47,6 +53,9 @@ interface ItemFilters {
   source?: z.infer<typeof sourceSchema> | Array<z.infer<typeof sourceSchema>>;
   status?: z.infer<typeof statusSchema>;
   tag?: string;
+  collection?: string;
+  ai?: 'none' | 'suggested' | 'accepted';
+  noted?: '1' | 'true';
   q?: string;
 }
 
@@ -74,6 +83,21 @@ function filterClauses(
        )`,
     );
     params.push(query.tag);
+  }
+  if (query.collection) {
+    if (query.collection === 'none') {
+      clauses.push('i.collection_id IS NULL');
+    } else {
+      clauses.push('i.collection_id = ?');
+      params.push(query.collection);
+    }
+  }
+  if (query.ai) {
+    clauses.push('i.ai_state = ?');
+    params.push(query.ai);
+  }
+  if (query.noted) {
+    clauses.push("i.summary IS NOT NULL AND trim(i.summary) <> ''");
   }
   if (query.q) {
     if (query.q.length >= 3) {
@@ -111,6 +135,7 @@ interface ItemRow {
   ai_state: string;
   last_surfaced_at: string | null;
   deleted_at: string | null;
+  collection_id: string | null;
   tags_json: string | null;
 }
 
@@ -144,6 +169,7 @@ function toDto(row: ItemRow) {
     ai_state: row.ai_state,
     last_surfaced_at: row.last_surfaced_at,
     deleted_at: row.deleted_at,
+    collection_id: row.collection_id,
     tags: parseJson<string[]>(row.tags_json, []),
   };
 }
@@ -202,6 +228,10 @@ function applyPatch(db: Database, id: string, patch: z.infer<typeof itemPatchSch
   if (patch.summary !== undefined) {
     sets.push('summary = ?');
     values.push(patch.summary);
+  }
+  if (patch.collection_id !== undefined) {
+    sets.push('collection_id = ?');
+    values.push(patch.collection_id);
   }
   if (sets.length === 0) return false;
   values.push(id);
@@ -312,6 +342,12 @@ export function registerItemRoutes(app: FastifyInstance, db: Database): void {
     }
     const item = getItem(db, id);
     if (!item) return reply.code(404).send({ error: 'not found' });
+    if (
+      parsed.data.collection_id != null &&
+      !db.prepare('SELECT 1 FROM collections WHERE id = ?').get(parsed.data.collection_id)
+    ) {
+      return reply.code(400).send({ error: 'collection not found' });
+    }
 
     applyPatch(db, id, parsed.data);
     const updated = getItem(db, id);

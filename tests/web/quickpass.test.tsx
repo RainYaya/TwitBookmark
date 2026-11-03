@@ -26,6 +26,7 @@ function tweet(id: string): Item {
     ai_state: 'none',
     last_surfaced_at: null,
     deleted_at: null,
+    collection_id: null,
     tags: [],
   };
 }

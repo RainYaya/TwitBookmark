@@ -10,7 +10,9 @@ import {
   type Tag,
 } from '../lib/api.js';
 import { useKeymap } from '../lib/keys.js';
+import { DATA_CHANGED, notifyDataChanged } from '../lib/events.js';
 import { LibraryTable } from '../components/LibraryTable.js';
+import { ItemDetail } from '../components/ItemDetail.js';
 import { TagPicker } from '../components/TagPicker.js';
 
 const SCREEN = 10;
@@ -24,27 +26,25 @@ export interface LibraryProps {
   client?: Api;
 }
 
-const STATUS_OPTIONS: Array<{ value: Status; label: string }> = [
-  { value: 'inbox', label: '收件箱' },
-  { value: 'later', label: '稍后' },
-  { value: 'done', label: '已消化' },
-  { value: 'reference', label: '备查' },
-];
-
 export default function Library({ client: injected }: LibraryProps) {
   const client = useMemo(() => injected ?? new ApiClient(), [injected]);
-  const deleted =
-    typeof window !== 'undefined' &&
-    new URLSearchParams(window.location.search).get('deleted') === '1';
+  const initial =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams();
+  const deleted = initial.get('deleted') === '1';
+  const collectionFilter = initial.get('collection') ?? '';
+  const aiFilter = initial.get('ai') ?? '';
+  const notedFilter = initial.get('noted') === '1';
 
   const [items, setItems] = useState<Item[]>([]);
   const [nextCursor, setNextCursor] = useState<string | undefined>(undefined);
   const [tags, setTags] = useState<Tag[]>([]);
-  const [sourceFilter, setSourceFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [tagFilter, setTagFilter] = useState('');
-  const [qDraft, setQDraft] = useState('');
-  const [q, setQ] = useState('');
+  const sourceFilter = initial.get('source') ?? '';
+  const statusFilter = initial.get('status') ?? '';
+  const tagFilter = initial.get('tag') ?? '';
+  const [qDraft, setQDraft] = useState(initial.get('q') ?? '');
+  const [q, setQ] = useState(initial.get('q') ?? '');
   const [cleanup, setCleanup] = useState(false);
   const [cursor, setCursor] = useState(0);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -53,20 +53,27 @@ export default function Library({ client: injected }: LibraryProps) {
   const [undo, setUndo] = useState<Undo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [reload, setReload] = useState(0);
+  const [collectionName, setCollectionName] = useState('');
+  const [detail, setDetail] = useState<Item | null>(null);
 
   const queryFor = useCallback(
     (extra: Partial<ItemQuery> = {}): ItemQuery => {
       const query: ItemQuery = { limit: cleanup ? 200 : 50, ...extra };
       if (deleted) query.deleted = true;
       query.source = sourceFilter
-        ? [sourceFilter as 'browser' | 'github']
-        : ['browser', 'github'];
+        ? [sourceFilter as 'twitter' | 'browser' | 'github']
+        : ['twitter', 'browser', 'github'];
       if (statusFilter) query.status = statusFilter as Status;
       if (tagFilter) query.tag = tagFilter;
+      if (collectionFilter) query.collection = collectionFilter;
+      if (aiFilter === 'suggested' || aiFilter === 'none' || aiFilter === 'accepted') {
+        query.ai = aiFilter;
+      }
+      if (notedFilter) query.noted = true;
       if (q) query.q = q;
       return query;
     },
-    [cleanup, deleted, q, sourceFilter, statusFilter, tagFilter],
+    [cleanup, deleted, notedFilter, q, sourceFilter, statusFilter, tagFilter, collectionFilter, aiFilter],
   );
 
   useEffect(() => {
@@ -81,6 +88,30 @@ export default function Library({ client: injected }: LibraryProps) {
       active = false;
     };
   }, [client]);
+
+  useEffect(() => {
+    const refresh = () => setReload((value) => value + 1);
+    window.addEventListener(DATA_CHANGED, refresh);
+    return () => window.removeEventListener(DATA_CHANGED, refresh);
+  }, []);
+
+  useEffect(() => {
+    if (!collectionFilter || collectionFilter === 'none') return;
+    let active = true;
+    client
+      .listCollections()
+      .then((collections) => {
+        if (active) {
+          setCollectionName(
+            collections.find((collection) => collection.id === collectionFilter)?.name ?? '',
+          );
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, [client, collectionFilter]);
 
   useEffect(() => {
     let active = true;
@@ -136,6 +167,7 @@ export default function Library({ client: injected }: LibraryProps) {
       setSelected(new Set());
       setCursor(Math.min(cursor, Math.max(0, next.length - 1)));
       setUndo({ kind: 'restore', ids });
+      notifyDataChanged();
     } catch (reason) {
       setError((reason as Error).message);
     }
@@ -151,6 +183,7 @@ export default function Library({ client: injected }: LibraryProps) {
       setItems((previous) => previous.filter((item) => !ids.includes(item.id)));
       setSelected(new Set());
       setCursor(0);
+      notifyDataChanged();
     } catch (reason) {
       setError((reason as Error).message);
     }
@@ -174,6 +207,7 @@ export default function Library({ client: injected }: LibraryProps) {
             patch: { status: item.status },
           })),
         });
+        notifyDataChanged();
       } catch (reason) {
         setError((reason as Error).message);
       }
@@ -235,6 +269,7 @@ export default function Library({ client: injected }: LibraryProps) {
       try {
         await client.acceptAi({ ids: [item.id] });
         setReload((value) => value + 1);
+        notifyDataChanged();
       } catch (reason) {
         setError((reason as Error).message);
       }
@@ -242,20 +277,41 @@ export default function Library({ client: injected }: LibraryProps) {
     [client],
   );
 
-  const acceptCurrent = useCallback(async () => {
-    const payload: AcceptAiPayload = {
-      source: sourceFilter ? [sourceFilter as 'browser' | 'github'] : ['browser', 'github'],
+  const saveDetail = useCallback(
+    async (changes: ItemPatch) => {
+      if (!detail) return;
+      try {
+        const updated = await client.patchItem(detail.id, changes);
+        setItems((previous) => previous.map((row) => (row.id === updated.id ? updated : row)));
+        setDetail(updated);
+        notifyDataChanged();
+      } catch (reason) {
+        setError((reason as Error).message);
+      }
+    },
+    [client, detail],
+  );
+
+  const acceptCurrent = useCallback(async () => {    const payload: AcceptAiPayload = {
+      source: sourceFilter
+        ? [sourceFilter as 'twitter' | 'browser' | 'github']
+        : ['twitter', 'browser', 'github'],
     };
     if (statusFilter) payload.status = statusFilter as Status;
     if (tagFilter) payload.tag = tagFilter;
+    if (collectionFilter) payload.collection = collectionFilter;
+    if (aiFilter === 'suggested' || aiFilter === 'none' || aiFilter === 'accepted') {
+      payload.ai = aiFilter;
+    }
     if (q) payload.q = q;
     try {
       await client.acceptAi(payload);
       setReload((value) => value + 1);
+      notifyDataChanged();
     } catch (reason) {
       setError((reason as Error).message);
     }
-  }, [client, q, sourceFilter, statusFilter, tagFilter]);
+  }, [aiFilter, client, collectionFilter, q, sourceFilter, statusFilter, tagFilter]);
 
   useKeymap(
     {
@@ -312,6 +368,7 @@ export default function Library({ client: injected }: LibraryProps) {
       setPickerItems(null);
       const nextTags = await client.listTags();
       setTags(nextTags);
+      notifyDataChanged();
     } catch (reason) {
       setError((reason as Error).message);
     }
@@ -330,9 +387,25 @@ export default function Library({ client: injected }: LibraryProps) {
     <main className="page">
       <header className="page-header">
         <div>
-          <h1>{deleted ? '回收站' : '库'}</h1>
+          <h1>
+            {deleted
+              ? '回收站'
+              : notedFilter
+                ? '我的笔记'
+                : aiFilter === 'suggested'
+                  ? 'AI 建议'
+                  : collectionFilter === 'none'
+                    ? '未归类'
+                    : collectionFilter
+                      ? collectionName || '收藏夹'
+                      : '全部收藏'}
+          </h1>
           <p className="muted">
-            {deleted ? '移除的条目都在这里，可随时恢复。' : '浏览器收藏和 GitHub 星标。'}
+            {deleted
+              ? '移除的条目都在这里，可随时恢复。'
+              : aiFilter === 'suggested'
+                ? 'AI 给出的标签与摘要，接受后进入正式标签。'
+                : '推特书签、浏览器收藏和 GitHub 星标。'}
           </p>
         </div>
         <div className="page-actions">
@@ -361,48 +434,7 @@ export default function Library({ client: injected }: LibraryProps) {
       </header>
 
       <section className="filters" aria-label="筛选">
-        <label>
-          <span>来源</span>
-          <select
-            aria-label="来源"
-            value={sourceFilter}
-            onChange={(event) => setSourceFilter(event.target.value)}
-          >
-            <option value="">全部</option>
-            <option value="browser">浏览器</option>
-            <option value="github">GitHub</option>
-          </select>
-        </label>
-        <label>
-          <span>状态</span>
-          <select
-            aria-label="状态"
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value)}
-          >
-            <option value="">全部</option>
-            {STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>标签</span>
-          <select
-            aria-label="标签"
-            value={tagFilter}
-            onChange={(event) => setTagFilter(event.target.value)}
-          >
-            <option value="">全部</option>
-            {tags.map((tag) => (
-              <option key={tag.id} value={tag.name}>
-                {tag.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <p className="filters-hint">从左侧选择分类，或直接搜索。</p>
         <form className="search" onSubmit={submitSearch}>
           <input
             aria-label="搜索"
@@ -412,6 +444,15 @@ export default function Library({ client: injected }: LibraryProps) {
           />
           <button type="submit">搜索</button>
         </form>
+        {tagFilter ? <span className="filter-chip">标签：{tagFilter}</span> : null}
+        {collectionFilter && collectionFilter !== 'none' ? (
+          <span className="filter-chip">收藏夹：{collectionName || '…'}</span>
+        ) : null}
+        {collectionFilter === 'none' ? (
+          <span className="filter-chip">未归类</span>
+        ) : null}
+        {aiFilter === 'suggested' ? <span className="filter-chip">AI 建议</span> : null}
+        {notedFilter ? <span className="filter-chip">我的笔记</span> : null}
       </section>
 
       {error ? <p className="error">{error}</p> : null}
@@ -465,6 +506,9 @@ export default function Library({ client: injected }: LibraryProps) {
           <LibraryTable
             items={items}
             onAcceptAi={deleted ? undefined : (item) => void acceptOne(item)}
+            onRowClick={(item) => {
+              if (!cleanup) setDetail(item);
+            }}
             onRestore={
               deleted
                 ? (item) => {
@@ -492,6 +536,23 @@ export default function Library({ client: injected }: LibraryProps) {
           selected={pickerBase}
           onSave={(names) => void saveTags(names)}
           onClose={() => setPickerItems(null)}
+        />
+      ) : null}
+
+      {detail ? (
+        <ItemDetail
+          key={detail.id}
+          item={detail}
+          onClose={() => setDetail(null)}
+          onPatch={(changes) => void saveDetail(changes)}
+          onAcceptAi={
+            detail.ai_state === 'suggested'
+              ? () => {
+                  void acceptOne(detail);
+                  setDetail(null);
+                }
+              : undefined
+          }
         />
       ) : null}
     </main>

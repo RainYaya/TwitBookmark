@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { BrowserRouter, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Keymap } from './components/Keymap.js';
+import { Sidebar } from './components/Sidebar.js';
 import { useKeymap } from './lib/keys.js';
 import Library from './routes/Library.js';
 import Settings from './routes/Settings.js';
@@ -11,6 +12,7 @@ const navClass = ({ isActive }: { isActive: boolean }) =>
 
 function Shell() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [help, setHelp] = useState(false);
 
   const handlers: Record<string, (event: KeyboardEvent) => void> = help
@@ -56,11 +58,16 @@ function Shell() {
         </button>
       </header>
 
-      <Routes>
-        <Route path="/" element={<Twitter />} />
-        <Route path="/library" element={<Library />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
+      <div className="app-body">
+        <Sidebar />
+        <div className="app-main">
+          <Routes>
+            <Route path="/" element={<Twitter />} />
+            <Route path="/library" element={<Library key={location.search} />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </div>
+      </div>
 
       {help ? <Keymap onClose={() => setHelp(false)} /> : null}
     </div>

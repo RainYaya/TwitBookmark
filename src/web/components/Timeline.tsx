@@ -42,9 +42,10 @@ export interface TimelineProps {
   onTag?: (item: Item) => void;
   onOpen?: (item: Item) => void;
   onDetail?: (item: Item) => void;
+  onAcceptAi?: (item: Item) => void;
 }
 
-export function Timeline({ items, onPatch, onTag, onOpen, onDetail }: TimelineProps) {
+export function Timeline({ items, onPatch, onTag, onOpen, onDetail, onAcceptAi }: TimelineProps) {
   const groups = groupByDate(items);
   return (
     <div className="timeline">
@@ -59,6 +60,7 @@ export function Timeline({ items, onPatch, onTag, onOpen, onDetail }: TimelinePr
               onTag={onTag ? () => onTag(item) : undefined}
               onOpen={onOpen ? () => onOpen(item) : undefined}
               onDetail={onDetail ? () => onDetail(item) : undefined}
+              onAcceptAi={onAcceptAi ? () => onAcceptAi(item) : undefined}
             />
           ))}
         </section>

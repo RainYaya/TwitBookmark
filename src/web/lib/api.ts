@@ -22,7 +22,28 @@ export interface Item {
   ai_state: AiState;
   last_surfaced_at: string | null;
   deleted_at: string | null;
+  collection_id: string | null;
   tags: string[];
+}
+
+export interface Collection {
+  id: string;
+  name: string;
+  position: number;
+  count: number;
+}
+
+export interface Facets {
+  total: number;
+  deleted: number;
+  untagged: number;
+  unfiled: number;
+  noted: number;
+  aiSuggested: number;
+  statuses: Record<Status, number>;
+  sources: Record<Source, number>;
+  tags: Array<{ name: string; count: number }>;
+  collections: Array<{ id: string; name: string; count: number }>;
 }
 
 export interface Tag {
@@ -35,6 +56,9 @@ export interface ItemQuery {
   source?: Source[];
   status?: Status;
   tag?: string;
+  collection?: string;
+  ai?: AiState;
+  noted?: boolean;
   q?: string;
   deleted?: boolean;
   cursor?: string;
@@ -52,6 +76,7 @@ export interface ItemPatch {
   is_todo?: boolean;
   todo_done?: boolean;
   summary?: string | null;
+  collection_id?: string | null;
 }
 
 export interface BulkPayload {
@@ -65,6 +90,8 @@ export interface AcceptAiPayload {
   source?: Source[];
   status?: Status;
   tag?: string;
+  collection?: string;
+  ai?: AiState;
   q?: string;
 }
 
@@ -116,6 +143,11 @@ export interface Api {
   setTags(id: string, tags: string[]): Promise<Item>;
   acceptAi(payload: AcceptAiPayload): Promise<{ updated: number }>;
   getDailyReview(count?: number): Promise<Item[]>;
+  listCollections(): Promise<Collection[]>;
+  createCollection(name: string): Promise<Collection>;
+  renameCollection(id: string, name: string): Promise<Collection>;
+  deleteCollection(id: string): Promise<void>;
+  getFacets(): Promise<Facets>;
 }
 
 export interface SettingsApi extends Api {
@@ -163,6 +195,9 @@ export class ApiClient implements SettingsApi {
     for (const source of query.source ?? []) params.append('source', source);
     if (query.status) params.set('status', query.status);
     if (query.tag) params.set('tag', query.tag);
+    if (query.collection) params.set('collection', query.collection);
+    if (query.ai) params.set('ai', query.ai);
+    if (query.noted) params.set('noted', '1');
     if (query.q) params.set('q', query.q);
     if (query.deleted) params.set('deleted', '1');
     if (query.cursor) params.set('cursor', query.cursor);
@@ -237,6 +272,35 @@ export class ApiClient implements SettingsApi {
   async getDailyReview(count = 3): Promise<Item[]> {
     const body = await request<{ items: Item[] }>(`/api/review/daily?count=${count}`);
     return body.items;
+  }
+
+  async listCollections(): Promise<Collection[]> {
+    const body = await request<{ collections: Collection[] }>('/api/collections');
+    return body.collections;
+  }
+
+  createCollection(name: string): Promise<Collection> {
+    return request<Collection>('/api/collections', {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    });
+  }
+
+  renameCollection(id: string, name: string): Promise<Collection> {
+    return request<Collection>(`/api/collections/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ name }),
+    });
+  }
+
+  async deleteCollection(id: string): Promise<void> {
+    await request<{ ok: boolean }>(`/api/collections/${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+    });
+  }
+
+  getFacets(): Promise<Facets> {
+    return request<Facets>('/api/facets');
   }
 
   async scanImports(): Promise<ImportFile[]> {

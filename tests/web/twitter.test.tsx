@@ -32,6 +32,7 @@ function tweet(id: string, savedAt: string, overrides: Partial<Item> = {}): Item
     ai_state: 'none',
     last_surfaced_at: null,
     deleted_at: null,
+    collection_id: null,
     tags: [],
     ...overrides,
   };
@@ -51,6 +52,22 @@ function makeClient(items: Item[]): Api {
     acceptAi: vi.fn(async () => ({ updated: 0 })),
     setTags: vi.fn(async (id, tags) => ({ ...items.find((row) => row.id === id)!, tags })),
     getDailyReview: vi.fn(async () => []),
+    listCollections: vi.fn(async () => []),
+    createCollection: vi.fn(async (name) => ({ id: 'c1', name, position: 1, count: 0 })),
+    renameCollection: vi.fn(async (id, name) => ({ id, name, position: 1, count: 0 })),
+    deleteCollection: vi.fn(async () => undefined),
+    getFacets: vi.fn(async () => ({
+      total: 0,
+      deleted: 0,
+      untagged: 0,
+      unfiled: 0,
+      noted: 0,
+      aiSuggested: 0,
+      statuses: { inbox: 0, later: 0, done: 0, reference: 0 },
+      sources: { twitter: 0, browser: 0, github: 0 },
+      tags: [],
+      collections: [],
+    })),
   };
 }
 
@@ -137,12 +154,64 @@ describe('Twitter timeline', () => {
     expect(dialog).toHaveTextContent('人工摘要');
     expect(dialog).toHaveTextContent('AI 摘要');
 
-    const summary = screen.getByLabelText('摘要');
+    const summary = screen.getByLabelText('我的笔记');
     await user.clear(summary);
     await user.type(summary, '新的摘要');
-    await user.click(screen.getByRole('button', { name: '保存摘要' }));
+    await user.click(screen.getByRole('button', { name: '保存笔记' }));
     await waitFor(() =>
       expect(client.patchItem).toHaveBeenCalledWith('a', { summary: '新的摘要' }),
+    );
+  });
+
+  it('accepts an AI suggestion from the timeline and refreshes', async () => {
+    const user = userEvent.setup();
+    const suggestion = {
+      ai_tags: ['AI与模型'],
+      ai_summary: 'AI 摘要',
+      ai_state: 'suggested' as const,
+    };
+    const client = makeClient([
+      tweet('a', '2026-11-02T10:00:00.000Z', suggestion),
+    ]);
+    (client.listItems as unknown as ReturnType<typeof vi.fn>).mockImplementation(async () => ({
+      items: [
+        tweet('a', '2026-11-02T10:00:00.000Z', {
+          ai_tags: ['AI与模型'],
+          ai_summary: 'AI 摘要',
+          summary: 'AI 摘要',
+          ai_state:
+            (client.acceptAi as unknown as ReturnType<typeof vi.fn>).mock.calls.length > 0
+              ? 'accepted'
+              : 'suggested',
+        }),
+      ],
+    }));
+    render(<Twitter client={client} />);
+    await screen.findByText('AI 建议');
+
+    await user.click(screen.getByRole('button', { name: '接受 AI' }));
+    await waitFor(() => expect(client.acceptAi).toHaveBeenCalledWith({ ids: ['a'] }));
+    await waitFor(() => expect(screen.queryByText('AI 建议')).not.toBeInTheDocument());
+    expect((await screen.findByText('AI 摘要')).closest('.my-note')).not.toBeNull();
+  });
+
+  it('accepts every AI suggestion in the current filter', async () => {
+    const user = userEvent.setup();
+    const client = makeClient([
+      tweet('a', '2026-11-02T10:00:00.000Z', {
+        ai_tags: ['AI与模型'],
+        ai_summary: 'AI 摘要',
+        ai_state: 'suggested',
+      }),
+    ]);
+    render(<Twitter client={client} />);
+    await screen.findByText('AI 建议');
+
+    await user.click(screen.getByRole('button', { name: '接受当前筛选建议' }));
+    await waitFor(() =>
+      expect(client.acceptAi).toHaveBeenCalledWith(
+        expect.objectContaining({ source: ['twitter'] }),
+      ),
     );
   });
 

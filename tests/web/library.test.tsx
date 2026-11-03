@@ -26,6 +26,7 @@ function item(id: string, overrides: Partial<Item> = {}): Item {
     ai_state: 'none',
     last_surfaced_at: null,
     deleted_at: null,
+    collection_id: null,
     tags: [],
     ...overrides,
   };
@@ -88,24 +89,45 @@ describe('Library', () => {
     expect(screen.getByText('工具')).toBeInTheDocument();
   });
 
-  it('refetches with source and search filters', async () => {
+  it('uses the source from the sidebar URL and refetches with search', async () => {
     const user = userEvent.setup();
+    window.history.replaceState({}, '', '/library?source=github');
     const client = makeClient([item('a'), item('b', { source: 'github' })]);
     render(<Library client={client} />);
-    await screen.findByText('书签 a');
+    await screen.findByText('书签 b');
 
-    await user.selectOptions(screen.getByLabelText('来源'), 'github');
-    await waitFor(() =>
-      expect(client.listItems).toHaveBeenLastCalledWith(
-        expect.objectContaining({ source: ['github'] }),
-      ),
+    expect(client.listItems).toHaveBeenCalledWith(
+      expect.objectContaining({ source: ['github'] }),
     );
 
     const search = screen.getByLabelText('搜索');
     await user.type(search, 'agent{Enter}');
     await waitFor(() =>
-      expect(client.listItems).toHaveBeenLastCalledWith(expect.objectContaining({ q: 'agent' })),
+      expect(client.listItems).toHaveBeenLastCalledWith(
+        expect.objectContaining({ source: ['github'], q: 'agent' }),
+      ),
     );
+    window.history.replaceState({}, '', '/library');
+  });
+
+  it('opens a browser item and saves a personal note', async () => {
+    const user = userEvent.setup();
+    const client = makeClient([item('a')]);
+    render(<Library client={client} />);
+    await screen.findByText('书签 a');
+
+    await user.click(screen.getByTestId('library-row'));
+    const dialog = await screen.findByRole('dialog', { name: '条目详情' });
+    const note = within(dialog).getByLabelText('我的笔记');
+    await user.type(note, '安卓和 Windows 通信');
+    await user.click(within(dialog).getByRole('button', { name: '保存笔记' }));
+
+    await waitFor(() =>
+      expect(client.patchItem).toHaveBeenCalledWith('a', {
+        summary: '安卓和 Windows 通信',
+      }),
+    );
+    expect(screen.getAllByText('我的笔记').length).toBeGreaterThan(0);
   });
 
   it('cleans up ten rows at a time with the keyboard', async () => {
@@ -180,7 +202,7 @@ describe('Library', () => {
     await user.click(screen.getByRole('button', { name: '接受当前筛选建议' }));
     await waitFor(() =>
       expect(client.acceptAi).toHaveBeenCalledWith(
-        expect.objectContaining({ source: ['browser', 'github'] }),
+        expect.objectContaining({ source: ['twitter', 'browser', 'github'] }),
       ),
     );
   });

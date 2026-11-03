@@ -72,6 +72,14 @@ export function LibraryTable({
               key={item.id}
               data-testid="library-row"
               data-status={item.status}
+              draggable
+              onDragStart={(event) => {
+                event.dataTransfer.setData(
+                  'application/x-twitbookmark-item',
+                  JSON.stringify({ id: item.id, tags: item.tags }),
+                );
+                event.dataTransfer.effectAllowed = 'move';
+              }}
               aria-selected={isSelected}
               className={[
                 isSelected ? 'is-selected' : '',
@@ -85,7 +93,12 @@ export function LibraryTable({
                 <a href={item.url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>
                   {item.title}
                 </a>
-                {item.summary ? <div className="item-summary">{item.summary}</div> : null}
+                {item.summary ? (
+                  <div className="my-note">
+                    <span className="note-label">我的笔记</span>
+                    <p>{item.summary}</p>
+                  </div>
+                ) : null}
                 {item.ai_state === 'suggested' &&
                 (item.ai_tags.length > 0 || item.ai_summary) ? (
                   <div className="ai-suggest" data-testid="ai-suggest">

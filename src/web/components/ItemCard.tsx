@@ -35,9 +35,17 @@ export interface ItemCardProps {
   onTag?: () => void;
   onOpen?: () => void;
   onDetail?: () => void;
+  onAcceptAi?: () => void;
 }
 
-export function ItemCard({ item, onPatch, onTag, onOpen, onDetail }: ItemCardProps) {
+export function ItemCard({
+  item,
+  onPatch,
+  onTag,
+  onOpen,
+  onDetail,
+  onAcceptAi,
+}: ItemCardProps) {
   const name = typeof item.metadata.name === 'string' ? item.metadata.name : '';
   const screenName =
     typeof item.metadata.screen_name === 'string' ? item.metadata.screen_name : '';
@@ -46,7 +54,19 @@ export function ItemCard({ item, onPatch, onTag, onOpen, onDetail }: ItemCardPro
   const media = mediaOf(item);
 
   return (
-    <article className="item-card" data-testid="item-card" data-status={item.status}>
+    <article
+      className="item-card"
+      data-testid="item-card"
+      data-status={item.status}
+      draggable
+      onDragStart={(event) => {
+        event.dataTransfer.setData(
+          'application/x-twitbookmark-item',
+          JSON.stringify({ id: item.id, tags: item.tags }),
+        );
+        event.dataTransfer.effectAllowed = 'move';
+      }}
+    >
       <header className="item-card-head">
         {avatar ? (
           <img className="avatar" src={assetUrl(avatar)} alt="" loading="lazy" />
@@ -60,7 +80,12 @@ export function ItemCard({ item, onPatch, onTag, onOpen, onDetail }: ItemCardPro
 
       <p className="item-body">{textOf(item)}</p>
 
-      {item.summary ? <p className="item-summary">{item.summary}</p> : null}
+      {item.summary ? (
+        <div className="my-note">
+          <span className="note-label">我的笔记</span>
+          <p>{item.summary}</p>
+        </div>
+      ) : null}
 
       {item.ai_state === 'suggested' &&
       (item.ai_tags.length > 0 || item.ai_summary) ? (
@@ -72,6 +97,11 @@ export function ItemCard({ item, onPatch, onTag, onOpen, onDetail }: ItemCardPro
             </span>
           ))}
           {item.ai_summary ? <span className="ai-summary">{item.ai_summary}</span> : null}
+          {onAcceptAi ? (
+            <button type="button" className="link-button" onClick={onAcceptAi}>
+              接受 AI
+            </button>
+          ) : null}
         </div>
       ) : null}
 

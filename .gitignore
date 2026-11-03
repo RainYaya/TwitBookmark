@@ -17,3 +17,4 @@ data/e2e.db
 test-results/
 playwright-report/
 data/e2e.db-*
+data/backups/

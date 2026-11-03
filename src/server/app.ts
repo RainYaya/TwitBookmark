@@ -1,6 +1,7 @@
 import Fastify, { type FastifyInstance } from 'fastify';
 import type { Database } from './db.js';
 import { registerAiRoutes, type LmClientFactory } from './routes/ai.js';
+import { registerCollectionRoutes } from './routes/collections.js';
 import { registerImportRoutes } from './routes/imports.js';
 import { registerItemRoutes } from './routes/items.js';
 import { registerReviewRoutes } from './routes/review.js';
@@ -26,6 +27,7 @@ export function buildApp({
   const app = Fastify({ logger: false, bodyLimit: 25 * 1024 * 1024 });
   registerItemRoutes(app, db);
   registerTagRoutes(app, db);
+  registerCollectionRoutes(app, db);
   registerImportRoutes(app, db, { importsDir });
   registerSyncRoutes(app, db, ghRunner);
   registerReviewRoutes(app, db, now);

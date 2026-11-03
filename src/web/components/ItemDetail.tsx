@@ -18,9 +18,10 @@ export interface ItemDetailProps {
   item: Item;
   onClose: () => void;
   onPatch: (patch: ItemPatch) => void;
+  onAcceptAi?: () => void;
 }
 
-export function ItemDetail({ item, onClose, onPatch }: ItemDetailProps) {
+export function ItemDetail({ item, onClose, onPatch, onAcceptAi }: ItemDetailProps) {
   const [summary, setSummary] = useState(item.summary ?? '');
   const media = Array.isArray(item.metadata.media)
     ? (item.metadata.media as MediaEntry[])
@@ -73,17 +74,17 @@ export function ItemDetail({ item, onClose, onPatch }: ItemDetailProps) {
 
         <div className="summary-editor">
           <label className="field">
-            <span>摘要</span>
+            <span>我的笔记</span>
             <textarea
-              aria-label="摘要"
+              aria-label="我的笔记"
               value={summary}
               onChange={(event) => setSummary(event.target.value)}
-              rows={3}
-              placeholder="写一句自己的摘要"
+              rows={4}
+              placeholder="写下这是做什么的、以后怎么用，比如「安卓和 Windows 通信，可以在 Windows 上看安卓系统」"
             />
           </label>
           <button type="button" className="primary" onClick={() => onPatch({ summary: summary.trim() || null })}>
-            保存摘要
+            保存笔记
           </button>
         </div>
 
@@ -97,6 +98,11 @@ export function ItemDetail({ item, onClose, onPatch }: ItemDetailProps) {
               </span>
             ))}
             {item.ai_summary ? <span className="ai-summary">{item.ai_summary}</span> : null}
+            {onAcceptAi ? (
+              <button type="button" className="link-button" onClick={onAcceptAi}>
+                接受 AI
+              </button>
+            ) : null}
           </div>
         ) : null}
 

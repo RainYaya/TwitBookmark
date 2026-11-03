@@ -13,6 +13,7 @@ import { QuickPass } from '../components/QuickPass.js';
 import { ReviewStrip } from '../components/ReviewStrip.js';
 import { TagPicker } from '../components/TagPicker.js';
 import { Timeline } from '../components/Timeline.js';
+import { notifyDataChanged } from '../lib/events.js';
 
 const STATUS_OPTIONS: Array<{ value: Status; label: string }> = [
   { value: 'inbox', label: '收件箱' },
@@ -98,8 +99,33 @@ export default function Twitter({ client: injected }: TwitterProps) {
     }
   };
 
-  const saveTags = async (names: string[]) => {
-    if (!target) return;
+  const acceptAi = async (item: Item) => {
+    try {
+      await client.acceptAi({ ids: [item.id] });
+      if (detail?.id === item.id) setDetail(null);
+      refresh();
+      notifyDataChanged();
+    } catch (reason) {
+      setError((reason as Error).message);
+    }
+  };
+
+  const acceptCurrent = async () => {
+    try {
+      await client.acceptAi({
+        source: ['twitter'],
+        ...(statusFilter ? { status: statusFilter as Status } : {}),
+        ...(tagFilter ? { tag: tagFilter } : {}),
+        ...(q ? { q } : {}),
+      });
+      refresh();
+      notifyDataChanged();
+    } catch (reason) {
+      setError((reason as Error).message);
+    }
+  };
+
+  const saveTags = async (names: string[]) => {    if (!target) return;
     try {
       const updated = await client.setTags(target.id, names);
       setItems((previous) => previous.map((row) => (row.id === updated.id ? updated : row)));
@@ -141,6 +167,9 @@ export default function Twitter({ client: injected }: TwitterProps) {
         </div>
         <div className="page-actions">
           <span className="inbox-count">待处理 {inbox.length} 条</span>
+          <button type="button" onClick={() => void acceptCurrent()}>
+            接受当前筛选建议
+          </button>
           <button
             type="button"
             className="primary"
@@ -212,6 +241,7 @@ export default function Twitter({ client: injected }: TwitterProps) {
             onPatch={(item, changes) => void patch(item, changes)}
             onTag={(item) => setTarget(item)}
             onDetail={(item) => setDetail(item)}
+            onAcceptAi={(item) => void acceptAi(item)}
           />
           {nextCursor ? (
             <button type="button" onClick={() => void loadMore()}>
@@ -222,6 +252,7 @@ export default function Twitter({ client: injected }: TwitterProps) {
             items={review}
             onPatch={(item, changes) => void patch(item, changes)}
             onTag={(item) => setTarget(item)}
+            onAcceptAi={(item) => void acceptAi(item)}
           />
         </>
       ) : (
@@ -233,6 +264,7 @@ export default function Twitter({ client: injected }: TwitterProps) {
           item={detail}
           onClose={() => setDetail(null)}
           onPatch={(changes) => void patch(detail, changes)}
+          onAcceptAi={() => void acceptAi(detail)}
         />
       ) : null}
 
