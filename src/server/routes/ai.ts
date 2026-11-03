@@ -5,6 +5,7 @@ import { nowIso } from '../lib/time.js';
 import { LmStudioClient, type LanguageModelClient } from '../ai/lmstudio.js';
 import { proposeTaxonomy, sampleForTaxonomy, type TaxonomyTag } from '../ai/taxonomy.js';
 import { classifyItems } from '../ai/classify.js';
+import { itemContext } from '../ai/context.js';
 import { readSettings, writeSetting } from './settings.js';
 
 export type LmClientFactory = (settings: {
@@ -88,7 +89,7 @@ function startClassification(
         db,
         client,
         taxonomy: config.taxonomy,
-        batchSize: 30,
+        contextFor: (row) => itemContext(row),
         shouldPause: () => getJob(db, jobId)?.status === 'paused',
         onProgress: (done, total) => {
           db.prepare(

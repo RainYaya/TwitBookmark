@@ -179,7 +179,7 @@ describe('classifyItems', () => {
       }),
     );
 
-    const result = await classifyItems({ db, client: model, taxonomy: TAXONOMY });
+    const result = await classifyItems({ db, client: model, taxonomy: TAXONOMY, batchSize: 30 });
     expect(result).toMatchObject({ processed: 35, paused: false, unknownTags: 35 });
     expect(model.batches.map((batch) => batch.length)).toEqual([30, 5]);
 
@@ -189,6 +189,104 @@ describe('classifyItems', () => {
     expect(JSON.parse(row.ai_tags)).toEqual(['AI']);
     expect(row.ai_summary).toHaveLength(120);
     expect(row.ai_state).toBe('suggested');
+  });
+
+  it('sends fetched page or README text and repository topics to the model', async () => {
+    insertItem(db, 'b1', { source: 'browser', metadata: { body: '原标题' } });
+    insertItem(db, 'g1', {
+      source: 'github',
+      metadata: {
+        full_name: 'acme/ocr',
+        description: 'OCR toolkit',
+        language: 'Python',
+        topics: ['ocr', 'pdf'],
+      },
+    });
+
+    const model = new FakeModel((items) =>
+      fenced({
+        results: items.map((item) => ({ id: item.id, tags: ['AI'], summary: '这是什么' })),
+      }),
+    );
+    const contexts: Record<string, string> = {
+      b1: '页面正文：把截图转成文字。',
+      g1: 'README 正文：支持 PDF 与表格识别。',
+    };
+
+    await classifyItems({
+      db,
+      client: model,
+      taxonomy: TAXONOMY,
+      contextFor: async (row) => contexts[row.id] ?? null,
+    });
+
+    const prompt = model.prompts[0].map((message) => message.content).join('\n');
+    expect(prompt).toContain('把截图转成文字');
+    expect(prompt).toContain('支持 PDF 与表格识别');
+    expect(prompt).toContain('"topics":["ocr","pdf"]');
+  });
+
+  it('still classifies when a context lookup fails', async () => {
+    insertItem(db, 'b1', { source: 'browser' });
+
+    const model = new FakeModel((items) =>
+      fenced({
+        results: items.map((item) => ({ id: item.id, tags: ['AI'], summary: '摘要' })),
+      }),
+    );
+
+    const result = await classifyItems({
+      db,
+      client: model,
+      taxonomy: TAXONOMY,
+      contextFor: async () => {
+        throw new Error('page unavailable');
+      },
+    });
+
+    expect(result.processed).toBe(1);
+    const prompt = model.prompts[0].map((message) => message.content).join('\n');
+    expect(prompt).toContain('标题 b1');
+  });
+
+  it('splits a batch when the fetched text exceeds the character budget', async () => {
+    for (let index = 0; index < 12; index += 1) {
+      insertItem(db, `g${index}`, {
+        source: 'github',
+        metadata: { full_name: `acme/repo-${index}` },
+      });
+    }
+
+    const model = new FakeModel((items) =>
+      fenced({
+        results: items.map((item) => ({ id: item.id, tags: ['AI'], summary: '摘要' })),
+      }),
+    );
+
+    await classifyItems({
+      db,
+      client: model,
+      taxonomy: TAXONOMY,
+      contextFor: async () => '长'.repeat(1000),
+      batchSize: 12,
+      maxChars: 7000,
+    });
+
+    expect(model.batches.length).toBeGreaterThan(1);
+    for (const batch of model.batches) expect(batch.length).toBeLessThan(12);
+  });
+
+  it('caps the default batch at 12 items', async () => {
+    for (let index = 0; index < 30; index += 1) insertItem(db, `t${index}`);
+    const model = new FakeModel((items) =>
+      fenced({
+        results: items.map((item) => ({ id: item.id, tags: ['AI'], summary: '摘要' })),
+      }),
+    );
+
+    await classifyItems({ db, client: model, taxonomy: TAXONOMY });
+
+    expect(model.batches.map((batch) => batch.length)).toEqual([12, 12, 6]);
   });
 
   it('never touches an accepted item', async () => {
@@ -225,6 +323,7 @@ describe('classifyItems', () => {
       db,
       client: model,
       taxonomy: TAXONOMY,
+      batchSize: 30,
       shouldPause: () => checks++ >= 1,
     });
 
@@ -247,9 +346,9 @@ describe('classifyItems', () => {
       });
     });
 
-    await expect(classifyItems({ db, client: model, taxonomy: TAXONOMY })).rejects.toThrow(
-      'model crashed',
-    );
+    await expect(
+      classifyItems({ db, client: model, taxonomy: TAXONOMY, batchSize: 30 }),
+    ).rejects.toThrow('model crashed');
     const suggested = db
       .prepare("SELECT count(*) AS n FROM items WHERE ai_state = 'suggested'")
       .get() as { n: number };
