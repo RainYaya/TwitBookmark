@@ -12,3 +12,8 @@ data/media/
 data/imports/*
 !data/imports/.gitkeep
 .ryugi/artifacts/.state/
+data/e2e.db
+.shots/
+test-results/
+playwright-report/
+data/e2e.db-*

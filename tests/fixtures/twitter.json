@@ -1,0 +1,31 @@
+[
+  {
+    "id": "111",
+    "created_at": "2026-11-01 09:30:00 +09:00",
+    "full_text": "第一个书签：关于本地 AI 工具的长文 https://t.co/abc",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://t.co/abc",
+        "thumbnail": "https://pbs.twimg.com/media/aaa?format=jpg&name=thumb",
+        "original": "https://pbs.twimg.com/media/aaa?format=jpg&name=orig"
+      }
+    ],
+    "screen_name": "alice",
+    "name": "Alice",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1/a.jpg",
+    "url": "https://x.com/alice/status/111",
+    "favorite_count": 12
+  },
+  {
+    "id": "222",
+    "created_at": "2026-11-02 10:00:00 +09:00",
+    "full_text": "第二个书签，没有媒体",
+    "media": [],
+    "screen_name": "bob",
+    "name": "Bob",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/2/b.jpg",
+    "url": "https://x.com/bob/status/222",
+    "favorite_count": 3
+  }
+]
