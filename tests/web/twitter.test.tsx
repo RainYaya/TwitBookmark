@@ -163,6 +163,21 @@ describe('Twitter timeline', () => {
     );
   });
 
+  it('edits tags from the detail panel', async () => {
+    const user = userEvent.setup();
+    const client = makeClient([tweet('a', '2026-11-02T10:00:00.000Z', { tags: ['旧标签'] })]);
+    render(<Twitter client={client} />);
+    await screen.findByText('推文正文 a');
+
+    await user.click(screen.getByRole('button', { name: '详情' }));
+    const dialog = await screen.findByRole('dialog', { name: '条目详情' });
+    await user.type(screen.getByLabelText('添加标签'), '安卓{Enter}');
+    await waitFor(() =>
+      expect(client.setTags).toHaveBeenCalledWith('a', ['旧标签', '安卓']),
+    );
+    expect(dialog).toBeInTheDocument();
+  });
+
   it('accepts an AI suggestion from the timeline and refreshes', async () => {
     const user = userEvent.setup();
     const suggestion = {

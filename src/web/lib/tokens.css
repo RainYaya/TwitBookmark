@@ -542,6 +542,7 @@ kbd {
 .field input,
 .field select,
 .field textarea,
+.tag-add input,
 .settings-grid .field select {
   background: var(--paper-soft);
   border: 0;
@@ -654,7 +655,41 @@ select {
 .tag-list {
   display: inline-flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 5px;
+}
+
+.detail-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.tag-editable {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.7;
+}
+
+.tag-editable:hover {
+  filter: brightness(0.94);
+}
+
+.tag-add {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-add input {
+  flex: 1;
+  min-width: 0;
 }
 
 .tag {

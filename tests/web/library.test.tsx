@@ -130,6 +130,24 @@ describe('Library', () => {
     expect(screen.getAllByText('我的笔记').length).toBeGreaterThan(0);
   });
 
+  it('edits tags from the item detail', async () => {
+    const user = userEvent.setup();
+    const client = makeClient(
+      [item('a', { tags: ['旧标签'] })],
+      [{ id: 1, name: '旧标签', count: 1 }],
+    );
+    render(<Library client={client} />);
+    await screen.findByText('书签 a');
+
+    await user.click(screen.getByTestId('library-row'));
+    const dialog = await screen.findByRole('dialog', { name: '条目详情' });
+    await user.click(within(dialog).getByRole('button', { name: '移除标签 旧标签' }));
+    await waitFor(() => expect(client.setTags).toHaveBeenCalledWith('a', []));
+
+    await user.type(within(dialog).getByLabelText('添加标签'), '安卓{Enter}');
+    await waitFor(() => expect(client.setTags).toHaveBeenLastCalledWith('a', ['安卓']));
+  });
+
   it('cleans up ten rows at a time with the keyboard', async () => {
     const user = userEvent.setup();
     const items = Array.from({ length: 12 }, (_, index) => item(String(index).padStart(2, '0')));

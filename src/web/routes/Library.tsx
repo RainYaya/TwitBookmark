@@ -292,6 +292,25 @@ export default function Library({ client: injected }: LibraryProps) {
     [client, detail],
   );
 
+  const saveDetailTags = useCallback(
+    async (names: string[]) => {
+      if (!detail) return;
+      try {
+        const updated = await client.setTags(detail.id, names);
+        setItems((previous) => previous.map((row) => (row.id === updated.id ? updated : row)));
+        setDetail(updated);
+        client
+          .listTags()
+          .then(setTags)
+          .catch(() => undefined);
+        notifyDataChanged();
+      } catch (reason) {
+        setError((reason as Error).message);
+      }
+    },
+    [client, detail],
+  );
+
   const acceptCurrent = useCallback(async () => {    const payload: AcceptAiPayload = {
       source: sourceFilter
         ? [sourceFilter as 'twitter' | 'browser' | 'github']
@@ -545,6 +564,8 @@ export default function Library({ client: injected }: LibraryProps) {
           item={detail}
           onClose={() => setDetail(null)}
           onPatch={(changes) => void saveDetail(changes)}
+          onSetTags={deleted ? undefined : (names) => void saveDetailTags(names)}
+          tagOptions={tags}
           onAcceptAi={
             detail.ai_state === 'suggested'
               ? () => {

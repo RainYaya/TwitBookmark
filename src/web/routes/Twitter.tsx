@@ -138,6 +138,20 @@ export default function Twitter({ client: injected }: TwitterProps) {
     }
   };
 
+  const saveDetailTags = async (names: string[]) => {
+    if (!detail) return;
+    try {
+      const updated = await client.setTags(detail.id, names);
+      setItems((previous) => previous.map((row) => (row.id === updated.id ? updated : row)));
+      setReview((previous) => previous.map((row) => (row.id === updated.id ? updated : row)));
+      setDetail(updated);
+      setTags(await client.listTags());
+      notifyDataChanged();
+    } catch (reason) {
+      setError((reason as Error).message);
+    }
+  };
+
   const loadMore = async () => {
     if (!nextCursor) return;
     try {
@@ -264,6 +278,8 @@ export default function Twitter({ client: injected }: TwitterProps) {
           item={detail}
           onClose={() => setDetail(null)}
           onPatch={(changes) => void patch(detail, changes)}
+          onSetTags={(names) => void saveDetailTags(names)}
+          tagOptions={tags}
           onAcceptAi={() => void acceptAi(detail)}
         />
       ) : null}
