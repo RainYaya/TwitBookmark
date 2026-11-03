@@ -13,6 +13,7 @@ function makeClient() {
       { name: 'AI', description: '人工智能' },
       { name: '工具', description: '效率工具' },
     ]),
+    ai_last_summary: JSON.stringify({ unmatched: 7, proposed: 2, total: 100 }),
   };
   const client = {
     getSettings: vi.fn(async () => ({ ...settings })),
@@ -167,5 +168,13 @@ describe('Settings page', () => {
     await user.click(screen.getByRole('button', { name: '同步 GitHub 星标' }));
     await waitFor(() => expect(client.syncGithub).toHaveBeenCalled());
     expect(await screen.findByText(/676/)).toBeInTheDocument();
+  });
+
+  it('shows how many items were left unclassified and how many tags were proposed', async () => {
+    const { client } = makeClient();
+    render(<Settings client={client} />);
+
+    expect(await screen.findByText(/未归类 7 条/)).toBeInTheDocument();
+    expect(screen.getByText(/2 个新标签/)).toBeInTheDocument();
   });
 });

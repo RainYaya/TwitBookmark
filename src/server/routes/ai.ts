@@ -76,6 +76,23 @@ function errorText(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
+function appendProposedTags(db: Database, proposed: TaxonomyTag[]): number {
+  if (proposed.length === 0) return 0;
+  const settings = readSettings(db);
+  const fromProposal = parseTaxonomy(settings.taxonomy_proposal);
+  const current = fromProposal.length > 0 ? fromProposal : parseTaxonomy(settings.taxonomy);
+  const names = new Set(current.map((tag) => tag.name));
+  let added = 0;
+  for (const tag of proposed) {
+    if (names.has(tag.name)) continue;
+    names.add(tag.name);
+    current.push(tag);
+    added += 1;
+  }
+  if (added > 0) writeSetting(db, 'taxonomy_proposal', JSON.stringify(current));
+  return added;
+}
+
 function startClassification(
   db: Database,
   jobId: string,
@@ -98,6 +115,17 @@ function startClassification(
         },
       });
       if (result.paused) return;
+      const added = appendProposedTags(db, result.proposedTags);
+      writeSetting(
+        db,
+        'ai_last_summary',
+        JSON.stringify({
+          unmatched: result.unmatched,
+          proposed: added,
+          processed: result.processed,
+          at: nowIso(),
+        }),
+      );
       db.prepare(
         "UPDATE ai_jobs SET status = 'done', done = total, error = NULL, updated_at = ? WHERE id = ?",
       ).run(nowIso(), jobId);
@@ -133,7 +161,7 @@ export function registerAiRoutes(
     if (!config.model) {
       return reply.code(400).send({ error: '请先在设置里选择 LM Studio 模型' });
     }
-    const samples = sampleForTaxonomy(db, 45);
+    const samples = sampleForTaxonomy(db, 150);
     if (samples.length === 0) {
       return reply.code(400).send({ error: '没有可分类的条目' });
     }

@@ -7,6 +7,7 @@ export const SETTING_KEYS = [
   'lmstudio_model',
   'taxonomy',
   'taxonomy_proposal',
+  'ai_last_summary',
 ] as const;
 
 export type SettingKey = (typeof SETTING_KEYS)[number];

@@ -29,6 +29,8 @@ export interface ClassifyResult {
   processed: number;
   paused: boolean;
   unknownTags: number;
+  unmatched: number;
+  proposedTags: TaxonomyTag[];
 }
 
 const DEFAULT_BATCH_SIZE = 12;
@@ -36,11 +38,17 @@ const DEFAULT_MAX_CHARS = 7000;
 const DEFAULT_CONTEXT_CHARS = 1000;
 const CONTEXT_CONCURRENCY = 4;
 
+const proposedTagSchema = z.object({
+  name: z.string().trim().min(1).max(20),
+  description: z.string().trim().max(200).default(''),
+});
+
 const resultsSchema = z.object({
   results: z.array(
     z.object({
       id: z.string(),
       tags: z.array(z.string()).default([]),
+      newTags: z.array(proposedTagSchema).default([]),
       summary: z.string().default(''),
     }),
   ),
@@ -150,10 +158,18 @@ export async function classifyItems(options: ClassifyOptions): Promise<ClassifyR
 
   let processed = 0;
   let unknownTags = 0;
+  let unmatched = 0;
+  const proposed = new Map<string, { tag: TaxonomyTag; count: number }>();
+
+  const finalProposals = (): TaxonomyTag[] =>
+    [...proposed.values()]
+      .sort((left, right) => right.count - left.count)
+      .slice(0, 10)
+      .map((entry) => entry.tag);
 
   for (let start = 0; start < pending.length; ) {
     if (processed > 0 && options.shouldPause?.()) {
-      return { processed, paused: true, unknownTags };
+      return { processed, paused: true, unknownTags, unmatched, proposedTags: finalProposals() };
     }
 
     const window = pending.slice(start, start + maxItems);
@@ -175,7 +191,7 @@ export async function classifyItems(options: ClassifyOptions): Promise<ClassifyR
 
     for (const chunk of chunkEntries(entries, maxChars, maxItems)) {
       if (options.shouldPause?.()) {
-        return { processed, paused: true, unknownTags };
+        return { processed, paused: true, unknownTags, unmatched, proposedTags: finalProposals() };
       }
 
       const taxonomyList = taxonomy
@@ -187,9 +203,10 @@ export async function classifyItems(options: ClassifyOptions): Promise<ClassifyR
           content:
             '你是个人书签整理助手。阅读每条书签的标题、链接以及附带的正文或 README 片段，判断它是什么、属于哪一类。' +
             '从给定标签表中选择 1–3 个标签，并用一句不超过 120 字的中文说明它是做什么的；不要评价质量，不要照抄标题。' +
-            '只能使用标签表里的标签，不要创造新标签。只输出 JSON，不要解释。\n' +
+            'tags 只能使用标签表里的标签；如果某条与现有标签都不匹配，不要硬塞，tags 返回空数组，并在 newTags 里给出一个建议的新标签（名称不超过 20 字，配一句简短定义）。' +
+            '只输出 JSON，不要解释。\n' +
             `可用标签：\n${taxonomyList}\n` +
-            '输出格式：{"results":[{"id":"条目 id","tags":["标签"],"summary":"说明"}]}',
+            '输出格式：{"results":[{"id":"条目 id","tags":["标签"],"newTags":[{"name":"新标签","description":"一句定义"}],"summary":"说明"}]}',
         },
         {
           role: 'user',
@@ -206,6 +223,31 @@ export async function classifyItems(options: ClassifyOptions): Promise<ClassifyR
           if (!chunkIds.has(result.id)) continue;
           const kept = result.tags.filter((tag) => allowed.has(tag));
           unknownTags += result.tags.length - kept.length;
+          if (kept.length === 0) {
+            unmatched += 1;
+            const candidates = [
+              ...result.newTags,
+              ...result.tags.map((name) => ({ name, description: '' })),
+            ];
+            for (const candidate of candidates) {
+              const name = candidate.name.trim();
+              if (!name || allowed.has(name)) continue;
+              const key = name.toLowerCase();
+              const existing = proposed.get(key);
+              if (existing) {
+                existing.count += 1;
+                if (!existing.tag.description && candidate.description.trim()) {
+                  existing.tag.description = candidate.description.trim();
+                }
+              } else {
+                proposed.set(key, {
+                  tag: { name, description: candidate.description.trim() },
+                  count: 1,
+                });
+              }
+            }
+            continue;
+          }
           const summary = result.summary.trim().slice(0, 120);
           update.run(
             JSON.stringify(kept.slice(0, 3)),
@@ -220,5 +262,5 @@ export async function classifyItems(options: ClassifyOptions): Promise<ClassifyR
     }
   }
 
-  return { processed, paused: false, unknownTags };
+  return { processed, paused: false, unknownTags, unmatched, proposedTags: finalProposals() };
 }

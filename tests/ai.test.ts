@@ -138,6 +138,32 @@ describe('taxonomy', () => {
     );
   });
 
+  it('samples proportionally and carries topics and hostnames', () => {
+    const big = createDb(':memory:');
+    for (let index = 0; index < 60; index += 1) {
+      insertItem(big, `b${index}`, { source: 'browser' });
+    }
+    for (let index = 0; index < 40; index += 1) {
+      insertItem(big, `g${index}`, {
+        source: 'github',
+        metadata: { full_name: `acme/r${index}`, topics: ['ocr', 'pdf'] },
+      });
+    }
+    for (let index = 0; index < 10; index += 1) {
+      insertItem(big, `t${index}`, { source: 'twitter' });
+    }
+
+    const samples = sampleForTaxonomy(big, 50);
+
+    expect(samples).toHaveLength(50);
+    expect(new Set(samples.map((sample) => sample.source))).toEqual(
+      new Set(['twitter', 'browser', 'github']),
+    );
+    expect(samples.find((sample) => sample.source === 'github')?.topics).toEqual(['ocr', 'pdf']);
+    expect(samples.find((sample) => sample.source === 'browser')?.hostname).toBe('example.com');
+    big.close();
+  });
+
   it('parses a fenced JSON taxonomy proposal', async () => {
     const reply = fenced({
       tags: Array.from({ length: 12 }, (_, index) => ({
@@ -247,6 +273,41 @@ describe('classifyItems', () => {
     expect(result.processed).toBe(1);
     const prompt = model.prompts[0].map((message) => message.content).join('\n');
     expect(prompt).toContain('标题 b1');
+  });
+
+  it('leaves items without a matching tag pending and proposes new tags', async () => {
+    insertItem(db, 'ok');
+    insertItem(db, 'miss');
+
+    const model = new FakeModel((items) =>
+      fenced({
+        results: items.map((item) =>
+          item.id === 'miss'
+            ? {
+                id: item.id,
+                tags: [],
+                newTags: [{ name: 'OCR', description: '文字识别与文档扫描' }],
+                summary: 'OCR 工具',
+              }
+            : { id: item.id, tags: ['AI'], summary: 'AI 工具' },
+        ),
+      }),
+    );
+
+    const result = await classifyItems({ db, client: model, taxonomy: TAXONOMY });
+
+    expect(result.unmatched).toBe(1);
+    expect(result.proposedTags).toEqual([
+      { name: 'OCR', description: '文字识别与文档扫描' },
+    ]);
+    const miss = db
+      .prepare('SELECT ai_state, ai_summary FROM items WHERE id = ?')
+      .get('miss') as { ai_state: string; ai_summary: string | null };
+    expect(miss).toEqual({ ai_state: 'none', ai_summary: null });
+    const ok = db
+      .prepare('SELECT ai_state FROM items WHERE id = ?')
+      .get('ok') as { ai_state: string };
+    expect(ok.ai_state).toBe('suggested');
   });
 
   it('splits a batch when the fetched text exceeds the character budget', async () => {
@@ -445,6 +506,51 @@ describe('AI routes', () => {
     expect(started.statusCode).toBe(200);
     const job = await waitForJob(started.json().job.id);
     expect(job).toMatchObject({ status: 'done', total: 35, done: 35 });
+  });
+
+  it('appends proposed tags and records unmatched items when a job finishes', async () => {
+    await app.inject({
+      method: 'PUT',
+      url: '/api/settings',
+      payload: {
+        settings: { lmstudio_model: 'fake-model', taxonomy: JSON.stringify(TAXONOMY) },
+      },
+    });
+    const proposing = new FakeModel((items) =>
+      fenced({
+        results: items.map((item) => ({
+          id: item.id,
+          tags: [],
+          newTags: [{ name: 'OCR', description: '文字识别与文档扫描' }],
+          summary: 'OCR 工具',
+        })),
+      }),
+    );
+    const proposingApp = buildApp({ db, lmClientFactory: () => proposing });
+    await proposingApp.ready();
+
+    const started = await proposingApp.inject({ method: 'POST', url: '/api/ai/classify' });
+    let job: { status: string } = { status: 'running' };
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      const res = await proposingApp.inject({
+        method: 'GET',
+        url: `/api/ai/jobs/${started.json().job.id}`,
+      });
+      job = res.json();
+      if (job.status === 'done' || job.status === 'failed') break;
+      await new Promise((resolve) => setTimeout(resolve, 10));
+    }
+    expect(job.status).toBe('done');
+
+    const settings = (await proposingApp.inject({ method: 'GET', url: '/api/settings' })).json()
+      .settings as Record<string, string>;
+    const proposal = JSON.parse(settings.taxonomy_proposal) as Array<{ name: string }>;
+    expect(proposal.map((tag) => tag.name)).toContain('OCR');
+    expect(JSON.parse(settings.ai_last_summary)).toMatchObject({
+      unmatched: 35,
+      proposed: 1,
+    });
+    await proposingApp.close();
   });
 
   it('marks a job failed when the model call fails', async () => {

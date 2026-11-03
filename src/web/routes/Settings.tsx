@@ -36,6 +36,24 @@ function parseTags(raw: string | undefined): TaxonomyTag[] {
   }
 }
 
+interface LastSummary {
+  unmatched: number;
+  proposed: number;
+}
+
+function parseSummary(raw: string | undefined): LastSummary | null {
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as Partial<LastSummary>;
+    if (typeof value?.unmatched === 'number' && typeof value?.proposed === 'number') {
+      return { unmatched: value.unmatched, proposed: value.proposed };
+    }
+  } catch {
+    // ignore malformed summaries
+  }
+  return null;
+}
+
 function statsText(stats: ImportStats): string {
   return `新增 ${stats.inserted} · 更新 ${stats.updated} · 跳过 ${stats.skipped}`;
 }
@@ -54,6 +72,7 @@ export default function Settings({ client: injected }: SettingsProps) {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [job, setJob] = useState<AiJob | null>(null);
+  const [lastSummary, setLastSummary] = useState<LastSummary | null>(null);
   const [busy, setBusy] = useState(false);
   const twitterInput = useRef<HTMLInputElement>(null);
   const browserInput = useRef<HTMLInputElement>(null);
@@ -68,6 +87,7 @@ export default function Settings({ client: injected }: SettingsProps) {
         setModel(settings.lmstudio_model || '');
         const proposal = parseTags(settings.taxonomy_proposal);
         setTaxonomy(proposal.length > 0 ? proposal : parseTags(settings.taxonomy));
+        setLastSummary(parseSummary(settings.ai_last_summary));
       })
       .catch((reason: Error) => active && setError(reason.message));
 
@@ -101,7 +121,16 @@ export default function Settings({ client: injected }: SettingsProps) {
     if (!job || (job.status !== 'pending' && job.status !== 'running')) return;
     const timer = setInterval(async () => {
       try {
-        setJob(await client.getJob(job.id));
+        const latest = await client.getJob(job.id);
+        setJob(latest);
+        if (latest.status === 'done') {
+          const settings = await client.getSettings().catch(() => null);
+          if (settings) {
+            const proposal = parseTags(settings.taxonomy_proposal);
+            if (proposal.length > 0) setTaxonomy(proposal);
+            setLastSummary(parseSummary(settings.ai_last_summary));
+          }
+        }
       } catch {
         // keep polling
       }
@@ -523,6 +552,14 @@ export default function Settings({ client: injected }: SettingsProps) {
           <p className="mono small">
             任务 {job.status} · {job.done}/{job.total}
             {job.error ? ` · ${job.error}` : ''}
+          </p>
+        ) : null}
+        {lastSummary && (lastSummary.unmatched > 0 || lastSummary.proposed > 0) ? (
+          <p className="notice">
+            上次分类：未归类 {lastSummary.unmatched} 条
+            {lastSummary.proposed > 0
+              ? `，已把 ${lastSummary.proposed} 个新标签加入上方「标签体系」，确认后再点一次「开始分类」即可补上。`
+              : '，可在上方标签体系里补充更具体的标签。'}
           </p>
         ) : null}
         <p className="muted small">
