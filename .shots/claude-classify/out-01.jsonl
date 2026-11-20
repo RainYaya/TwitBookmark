@@ -1,0 +1,118 @@
+{"id":"gh:zurawiki/gptcommit","tags":["开发工具","AI与模型"],"summary":"一个 Git 提交钩子工具，调用大语言模型根据暂存改动自动生成提交信息。"}
+{"id":"gh:zijie0/HumanSystemOptimization","tags":["生活与消费","学习与教程"],"summary":"一份关于人体健康与生活方式优化的中文指南，涵盖饮食、运动与睡眠等长期维护方法。"}
+{"id":"gh:ziishaned/learn-regex","tags":["学习与教程","开发工具"],"summary":"帮助初学者掌握正则表达式语法的交互式学习项目。"}
+{"id":"gh:zhuima/awesome-cloudflare","tags":["运维与网络","学习与教程"],"summary":"汇集 Cloudflare 相关工具、开源项目与指南的资源清单。"}
+{"id":"gh:zhinianboke/xianyu-auto-reply","tags":["效率与办公","后端与数据库"],"summary":"基于 Python 与 FastAPI 的闲鱼自动回复与发货管理系统，通过 WebSocket 接收消息并执行自动化流程。"}
+{"id":"gh:zhbhun/idify","tags":["前端与UI","设计素材"],"summary":"在浏览器中制作证件照的网页工具，可裁剪并生成符合规格的证件照片。"}
+{"id":"gh:zhaoxuya520/reverse-skill","tags":["安全与逆向","AI与模型"],"summary":"面向 AI 编程客户端的逆向与渗透测试技能路由包，按需加载工具链与经验库。"}
+{"id":"gh:zhaohongxuan/obsidian-weread-plugin","tags":["效率与办公","阅读与写作"],"summary":"将微信读书的划线和高亮同步到 Obsidian 笔记库的插件。"}
+{"id":"gh:zarazhangrui/codebase-to-course","tags":["AI与模型","学习与教程"],"summary":"一个 Claude Code 技能，把代码库转换为面向非技术读者的交互式单页课程。"}
+{"id":"gh:zai-org/GLM-OCR","tags":["OCR与文档","AI与模型"],"summary":"基于 GLM 的 OCR 模型项目，用于从图像中识别并提取文字。"}
+{"id":"gh:yusixian/moe-copy-ai","tags":["浏览器扩展","数据处理","AI与模型"],"summary":"一款 Chrome 扩展，借助 AI 从网页中提取和整理结构化数据。"}
+{"id":"gh:ytdl-org/youtube-dl","tags":["资源下载"],"summary":"命令行视频下载工具，支持从 YouTube 等网站获取视频内容。"}
+{"id":"gh:yt-dlp/yt-dlp","tags":["资源下载"],"summary":"功能丰富的命令行音视频下载器，支持众多网站与格式选项。"}
+{"id":"gh:youniaogu/MangaReader","tags":["动漫与影视","移动与桌面"],"summary":"基于 React Native 开发的漫画阅读应用，支持 Android 与 iOS 平台。"}
+{"id":"gh:youhunwl/TVAPP","tags":["移动与桌面","动漫与影视"],"summary":"收集 Android TV 电视盒子应用与 APK 资源的索引项目。"}
+{"id":"gh:yomidevs/yomitan","tags":["浏览器扩展","学习与教程"],"summary":"用于语言学习的浏览器弹窗词典扩展，支持日语查词并与 Anki 等工具配合。"}
+{"id":"gh:yomidevs/yomichan-dict-css","tags":["浏览器扩展","前端与UI"],"summary":"为 Yomichan 词典按名称着色的一组自定义 CSS 样式。"}
+{"id":"gh:yodhcn/dlsite-doujin-renamer","tags":["效率与办公","数据处理"],"summary":"根据 DLsite 作品编号抓取标题与社团信息，并按模板批量重命名文件夹的工具。"}
+{"id":"gh:ykdojo/claude-code-tips","tags":["AI与模型","开发工具","学习与教程"],"summary":"汇总 Claude Code 使用技巧与进阶实践的项目，附带状态栏脚本和工作流插件。"}
+{"id":"gh:yihong0618/running_page","tags":["生活与消费","数据处理"],"summary":"用于生成个人跑步主页的开源项目，聚合运动数据并进行可视化展示。"}
+{"id":"gh:yihong0618/epubhv","tags":["OCR与文档","阅读与写作"],"summary":"调整 EPUB 电子书文字排版方向的小工具，可在竖排与横排之间转换。"}
+{"id":"gh:yihong0618/bilingual_book_maker","tags":["OCR与文档","AI与模型","阅读与写作"],"summary":"使用 AI 翻译生成双语 EPUB 电子书的命令行工具。"}
+{"id":"gh:yetone/voice-input-src","tags":["移动与桌面","效率与办公"],"summary":"一个 macOS 菜单栏语音输入应用的源码，按住 Fn 键录音并把转写文字填入输入框。"}
+{"id":"gh:yetone/native-feel-skill","tags":["AI与模型","移动与桌面"],"summary":"一个 Agent 技能，总结跨平台桌面应用的原生感设计原则与架构检查清单。"}
+{"id":"gh:yetone/magpie","tags":["AI与模型","移动与桌面"],"summary":"macOS 菜单栏工具，用于在不同 AI 编程客户端之间切换和配置模型。"}
+{"id":"gh:yetone/kill-ai-slop","tags":["设计素材","AI与模型"],"summary":"归纳 AI 生成产品在视觉与文案上的常见套路，并提供扫描清理项目的 Agent 技能。"}
+{"id":"gh:yeasy/docker_practice","tags":["运维与网络","学习与教程"],"summary":"系统讲解 Docker 与容器技术的开源书籍，包含大量实践案例。"}
+{"id":"gh:yanliudesign/mono-color-skill","tags":["设计素材","AI与模型"],"summary":"用于生成单色编辑风格图像的 Agent 技能，涵盖纸张质感、半调摄影与版式规则。"}
+{"id":"gh:yan5xu/code-relay","tags":["AI与模型","开发工具","效率与办公"],"summary":"面向 AI 编程代理的工作协议，提供跨会话记忆与多仓库上下文管理方法。"}
+{"id":"gh:yamadashy/repomix","tags":["AI与模型","开发工具","数据处理"],"summary":"将整个代码仓库打包成适合大模型阅读的单一文件，便于向 AI 提供代码上下文。"}
+{"id":"gh:xxss0903/drawstamputils","tags":["前端与UI","开发工具"],"summary":"用 JavaScript 绘制印章图形的工具库。"}
+{"id":"gh:xxnuo/MTranServer","tags":["AI与模型","后端与数据库"],"summary":"可私有部署的离线翻译模型服务器，资源占用低并支持快速推理。"}
+{"id":"gh:xushengfeng/eSearch","tags":["OCR与文档","效率与办公","移动与桌面"],"summary":"跨平台桌面工具，集成截屏、离线 OCR、翻译、以图搜图和录屏等功能。"}
+{"id":"gh:xitanggg/open-resume","tags":["效率与办公","前端与UI"],"summary":"开源的简历构建与解析工具，可在线编辑简历并导入现有简历内容。"}
+{"id":"gh:xishang0128/sparkle","tags":["运维与网络","移动与桌面"],"summary":"基于 Electron 的 Mihomo 代理客户端图形界面。"}
+{"id":"gh:xincmm/sageread","tags":["阅读与写作","AI与模型","效率与办公"],"summary":"AI 辅助阅读器，在同一界面并排显示笔记、原文与对话，便于深度阅读。"}
+{"id":"gh:xifangczy/cat-catch","tags":["浏览器扩展","资源下载"],"summary":"浏览器资源嗅探扩展，可捕获网页中的媒体文件并支持 m3u8 视频下载。"}
+{"id":"gh:xiaojundebug/xiaojun.dev","tags":["阅读与写作","前端与UI"],"summary":"使用 Next.js、TypeScript、MDX 与 TailwindCSS 搭建的个人博客项目。"}
+{"id":"gh:xiao-zaiyi/illa-helper","tags":["学习与教程","浏览器扩展"],"summary":"浸入式语言学习辅助工具，在浏览网页时提供词汇与语境支持。"}
+{"id":"gh:xcanwin/KeepChatGPT","tags":["浏览器扩展","AI与模型"],"summary":"面向 ChatGPT 网页的增强脚本，提供自动刷新、保持活跃与界面净化等功能。"}
+{"id":"gh:xXJSONDeruloXx/decky-lsfg-vk","tags":["游戏与模拟器","移动与桌面"],"summary":"Steam Deck 插件，用于简化 Linux 上 Lossless Scaling 兼容层的安装与使用。"}
+{"id":"gh:wzh4869/AppPorts","tags":["移动与桌面","效率与办公"],"summary":"macOS 工具，将应用迁移到外部存储并建立链接以释放本地磁盘空间。"}
+{"id":"gh:wing-kai/epub-manga-creator","tags":["动漫与影视","OCR与文档"],"summary":"通过网页界面把漫画图片制作成日式 EPUB 电子书的生成工具。"}
+{"id":"gh:white0dew/XiaohongshuSkills","tags":["AI与模型","效率与办公"],"summary":"支持小红书自动发布、评论与检索的 Agent 技能，可接入多种 AI 客户端。"}
+{"id":"gh:wechat-article/wechat-article-exporter","tags":["资源下载","数据处理","阅读与写作"],"summary":"在线批量下载微信公众号文章的工具，可导出阅读量与评论并支持多种格式。"}
+{"id":"gh:webadderallorg/Recordly","tags":["移动与桌面","效率与办公"],"summary":"跨平台屏幕录制工具，用于制作无需剪辑的演示视频。"}
+{"id":"gh:vzhd1701/gridplayer","tags":["移动与桌面","音乐与音频"],"summary":"基于 Qt 的桌面视频播放器，可在同一窗口并排播放多个视频。"}
+{"id":"gh:vvbbnn00/WARP-Clash-API","tags":["运维与网络","自托管与硬件"],"summary":"通过订阅方式获取 Cloudflare WARP+ 流量的服务，支持 Docker 部署并适配多种客户端。"}
+{"id":"gh:voyager-crew/voyager","tags":["浏览器扩展","AI与模型"],"summary":"面向多个 AI 对话网站的浏览器增强套件，提供提示词管理与聊天辅助功能。"}
+{"id":"gh:victorsoares96/epubjs-react-native","tags":["移动与桌面","阅读与写作","前端与UI"],"summary":"基于 ePub.js 的 React Native 电子书阅读组件，用于在移动应用中渲染 EPUB。"}
+{"id":"gh:viarotel-org/escrcpy","tags":["移动与桌面","开发工具"],"summary":"基于 scrcpy 的图形界面工具，用于在电脑上显示和控制 Android 设备。"}
+{"id":"gh:versenilvis/IRIS","tags":["开发工具"],"summary":"为终端提供命令自动补全的 shell 工具。"}
+{"id":"gh:vercel/next-forge","tags":["前端与UI","开发工具"],"summary":"面向 Next.js 应用的生产级 Turborepo 项目模板，集成常见基础设施配置。"}
+{"id":"gh:vercel-labs/agent-skills","tags":["AI与模型","开发工具"],"summary":"Vercel 官方维护的 Agent 技能集合。"}
+{"id":"gh:vercel-labs/agent-browser","tags":["AI与模型","开发工具"],"summary":"面向 AI 代理的浏览器自动化命令行工具。"}
+{"id":"gh:valentderah/totk-pc-recomp","tags":["游戏与模拟器"],"summary":"将《塞尔达传说：王国之泪》静态重编译为 Windows 原生程序的项目，附带 Vulkan 渲染器。"}
+{"id":"gh:usebruno/bruno","tags":["开发工具","后端与数据库"],"summary":"开源的 API 调试与测试客户端，支持 HTTP、GraphQL 与 OpenAPI。"}
+{"id":"gh:upstash/context7","tags":["AI与模型","开发工具"],"summary":"为 AI 代理提供最新开发文档的 MCP 服务平台。"}
+{"id":"gh:unovue/shadcn-vue","tags":["前端与UI"],"summary":"shadcn-ui 的 Vue 版本，提供可组合的组件与样式方案。"}
+{"id":"gh:unknwon/the-way-to-go_ZH_CN","tags":["学习与教程","后端与数据库"],"summary":"《The Way to Go》的中文译本，系统介绍 Go 语言基础与进阶用法。"}
+{"id":"gh:unixzii/swiftui-for-react-devs","tags":["前端与UI","学习与教程","移动与桌面"],"summary":"面向 React 开发者的 SwiftUI 速查表，对照讲解两者的概念与写法。"}
+{"id":"gh:uniquemo/react-netease-music","tags":["前端与UI","音乐与音频"],"summary":"使用 React 与 TypeScript 实现的网易云音乐桌面客户端仿制项目。"}
+{"id":"gh:unilei/kerkerker","tags":["动漫与影视","自托管与硬件"],"summary":"基于 Next.js 的影视聚合站点，整合豆瓣信息并支持多源切换与 Docker 部署。"}
+{"id":"gh:umlx5h/LLPlayer","tags":["学习与教程","移动与桌面","动漫与影视"],"summary":"面向语言学习的视频播放器，支持双语字幕、AI 生成字幕与实时翻译。"}
+{"id":"gh:typicode/json-server","tags":["后端与数据库","开发工具"],"summary":"无需编写代码即可根据 JSON 文件快速生成模拟 REST API 的开发工具。"}
+{"id":"gh:tw93/Waza","tags":["AI与模型","开发工具","学习与教程"],"summary":"把常见工程习惯整理成 AI 助手可执行的技能集合。"}
+{"id":"gh:tw93/Pake","tags":["移动与桌面","开发工具"],"summary":"用一条命令把任意网站打包成轻量桌面应用，支持多平台。"}
+{"id":"gh:tw93/Mole","tags":["移动与桌面","效率与办公"],"summary":"用于清理和优化 macOS 与 Windows 系统的命令行工具，附带桌面应用。"}
+{"id":"gh:tw93/Kami","tags":["效率与办公","AI与模型","设计素材"],"summary":"面向 AI 代理的排版规则与模板集合，可导出 PDF、PNG 和可编辑 PPT。"}
+{"id":"gh:tw93/Kaku","tags":["开发工具","移动与桌面"],"summary":"面向 macOS 的终端应用，强调速度与 AI 编程工作流。"}
+{"id":"gh:tutti-os/tutti","tags":["AI与模型","效率与办公"],"summary":"供人与 AI 代理协同构建项目的工作空间平台。"}
+{"id":"gh:tusen-ai/naive-ui","tags":["前端与UI"],"summary":"基于 Vue 3 与 TypeScript 的组件库，支持主题定制。"}
+{"id":"gh:tt-a1i/archify","tags":["设计素材","AI与模型","开发工具"],"summary":"一个 Agent 技能，将想法、方案或代码库转换为可交互的架构图。"}
+{"id":"gh:transloadit/uppy","tags":["前端与UI","开发工具"],"summary":"用于浏览器的开源文件上传组件，支持多种来源与可插拔编码处理。"}
+{"id":"gh:topgrade-rs/topgrade","tags":["开发工具","运维与网络"],"summary":"一条命令批量升级系统中各类软件包与开发工具的命令行程序。"}
+{"id":"gh:tonngw/macman","tags":["学习与教程","移动与桌面"],"summary":"从零配置 Mac 开发环境的中文教程，涵盖终端、开发工具与效率软件。"}
+{"id":"gh:togg53192-cmd/jailbreaks","tags":["安全与逆向"],"summary":"一个汇总多种越狱或破解方案与相关提示词的列表仓库。"}
+{"id":"gh:tmoroney/auto-subs","tags":["动漫与影视","AI与模型"],"summary":"在本地生成字幕并直接导入剪辑软件的插件，支持语音转写。"}
+{"id":"gh:tmenier/Flurl","tags":["后端与数据库","开发工具"],"summary":"面向 .NET 的流式 URL 构建器与可测试 HTTP 客户端库。"}
+{"id":"gh:tldraw/tldraw","tags":["前端与UI","设计素材"],"summary":"用于在 React 中构建无限画布应用的绘图 SDK，支持协作与图形编辑。"}
+{"id":"gh:tisfeng/Easydict","tags":["移动与桌面","学习与教程","OCR与文档"],"summary":"macOS 词典与翻译应用，支持离线 OCR 及多家翻译服务。"}
+{"id":"gh:timqian/openprompt.co","tags":["AI与模型","效率与办公"],"summary":"用于创建、使用和分享 ChatGPT 提示词的平台。"}
+{"id":"gh:tickstep/aliyunpan","tags":["资源下载","开发工具"],"summary":"阿里云盘的命令行客户端，支持同步备份与 JavaScript 插件。"}
+{"id":"gh:tianyaxiang/neurapress","tags":["效率与办公","阅读与写作","前端与UI"],"summary":"面向微信公众号排版的 Markdown 编辑器，支持响应式预览与一键发布。"}
+{"id":"gh:thomaslevesque/NHotkey","tags":["开发工具","移动与桌面"],"summary":"用于在 Windows Forms 与 WPF 应用中注册全局热键的 .NET 库。"}
+{"id":"gh:thomasgalliker/ObjectDumper","tags":["开发工具"],"summary":"将 C# 对象序列化为字符串以便调试和记录日志的实用工具。"}
+{"id":"gh:thedotmack/claude-mem","tags":["AI与模型","开发工具","效率与办公"],"summary":"为 AI 代理提供跨会话持久记忆的插件，压缩历史内容并在后续会话中注入相关上下文。"}
+{"id":"gh:the1812/Bilibili-Evolved","tags":["浏览器扩展","动漫与影视"],"summary":"功能丰富的哔哩哔哩网页增强用户脚本，可按需启用多种组件。"}
+{"id":"gh:thatonecodes/examtopics-downloader","tags":["资源下载","学习与教程"],"summary":"用于从 ExamTopics 网站批量下载考试题目的命令行工具。"}
+{"id":"gh:tesseract-ocr/tesseract","tags":["OCR与文档","开发工具"],"summary":"开源 OCR 引擎，可从图像中识别多种语言的文字。"}
+{"id":"gh:tenoms/sf-express-return-picture","tags":["效率与办公","生活与消费"],"summary":"模拟顺丰电商退货地址截图的工具。"}
+{"id":"gh:team-spotube/spotube","tags":["音乐与音频","移动与桌面"],"summary":"开源音乐流媒体客户端，支持桌面与移动平台。"}
+{"id":"gh:tangshimin/MuJing","tags":["学习与教程","动漫与影视"],"summary":"通过电影、美剧和文档中的真实语境帮助记忆英语单词的应用。"}
+{"id":"gh:tailwindlabs/prettier-plugin-tailwindcss","tags":["前端与UI","开发工具"],"summary":"按推荐顺序自动排序 Tailwind CSS 类名的 Prettier 插件。"}
+{"id":"gh:tailwindlabs/heroicons","tags":["设计素材","前端与UI"],"summary":"一套免费的高质量 SVG 图标，用于界面开发。"}
+{"id":"gh:tailwindlabs/headlessui","tags":["前端与UI"],"summary":"无样式且注重无障碍的 UI 组件库，可与 Tailwind CSS 配合使用。"}
+{"id":"gh:supabase/supabase","tags":["后端与数据库","开发工具"],"summary":"基于 Postgres 的开发平台，提供数据库、认证、存储等后端能力。"}
+{"id":"gh:sunlei/awesome-tools","tags":["效率与办公","开发工具"],"summary":"作者整理的个人常用工具清单，按类别收录各类软件与服务。"}
+{"id":"gh:sudheerj/reactjs-interview-questions","tags":["学习与教程","前端与UI"],"summary":"收录大量 React 面试题与答案的学习资料仓库。"}
+{"id":"gh:subframe7536/obsidian-theme-maple","tags":["效率与办公","前端与UI"],"summary":"适用于桌面与移动端的 Obsidian 主题，提供现代化界面样式。"}
+{"id":"gh:storytold/craft-anything","tags":["学习与教程","开发工具"],"summary":"帮助理解软件实现原理并动手构建类似系统的学习项目。"}
+{"id":"gh:stackia/best-windows-apps","tags":["移动与桌面","效率与办公"],"summary":"推荐 Windows 平台优秀应用的清单，按使用场景分类整理。"}
+{"id":"gh:stablyai/orca","tags":["AI与模型","开发工具","效率与办公"],"summary":"用于运行和管理多个 AI 编程代理的桌面与移动平台。"}
+{"id":"gh:sqzw-x/mdcx","tags":["数据处理","动漫与影视"],"summary":"影视元数据刮削工具，可从多个来源抓取影片信息并整理入库。"}
+{"id":"gh:spring2go/cs_study_plan","tags":["学习与教程"],"summary":"一份偏向软件工程与系统架构方向的计算机科学自学计划。"}
+{"id":"gh:soybeanjs/soybean-admin","tags":["前端与UI"],"summary":"基于 Vue3 与 TypeScript 的后台管理模板，提供完整的前端技术栈方案。"}
+{"id":"gh:songquanpeng/go-file","tags":["自托管与硬件","运维与网络"],"summary":"基于 Go 的单文件分享工具，内置图床与视频播放页面。"}
+{"id":"gh:solidSpoon/DashPlayer","tags":["学习与教程","动漫与影视"],"summary":"面向英语学习者的视频播放器，支持字幕与语境化学习功能。"}
+{"id":"gh:soimort/you-get","tags":["资源下载"],"summary":"从网页抓取并下载媒体资源的命令行工具。"}
+{"id":"gh:smarzban/herdr-file-viewer","tags":["开发工具"],"summary":"为 herdr 提供的只读文件查看器，支持目录树、差异对比与语法高亮。"}
+{"id":"gh:skywind3000/awesome-cheatsheets","tags":["学习与教程","开发工具"],"summary":"汇集编程语言、框架与开发工具速查表的资料库。"}
+{"id":"gh:skywind3000/ECDICT","tags":["学习与教程","数据处理"],"summary":"免费的英汉词典数据库，可用于查词与语言学习应用。"}
+{"id":"gh:skeletonlabs/skeleton","tags":["前端与UI","设计素材"],"summary":"基于 Tailwind CSS 的自适应设计系统与组件库。"}
+{"id":"gh:six-ddc/livecaption","tags":["移动与桌面","AI与模型"],"summary":"macOS 上的实时本地语音转写与英译中工具，基于 Apple 芯片运行。"}
+{"id":"gh:simeydotme/pokemon-cards-css","tags":["前端与UI","设计素材","游戏与模拟器"],"summary":"用 CSS 实现宝可梦卡面全息反光等拟真视觉效果的项目。"}
+{"id":"gh:siddharthvaddem/openscreen","tags":["移动与桌面","效率与办公"],"summary":"开源屏幕录制工具，用于制作产品演示视频，可替代商业录屏软件。"}
+{"id":"gh:shockerli/mac-initialize","tags":["学习与教程","移动与桌面"],"summary":"面向新 Mac 的初始化配置指南，介绍常用软件与系统设置。"}
+{"id":"gh:shadcn/improve","tags":["AI与模型","开发工具"],"summary":"用强模型审计代码库并生成计划、交由低成本模型执行的工具。"}

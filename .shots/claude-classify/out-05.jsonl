@@ -1,0 +1,118 @@
+{"id":"gh:algerkong/AlgerMusicPlayer","tags":["音乐与音频","移动与桌面"],"summary":"第三方音乐播放器，支持本地服务、桌面歌词与音乐下载。"}
+{"id":"gh:alan2207/bulletproof-react","tags":["前端与UI","学习与教程"],"summary":"面向生产环境的 React 项目架构与最佳实践指南。"}
+{"id":"gh:aiktb/furiganamaker","tags":["浏览器扩展","学习与教程"],"summary":"为网页日文自动添加振假名的浏览器扩展，辅助汉字读音学习。"}
+{"id":"gh:aidenybai/million","tags":["前端与UI","开发工具"],"summary":"用于优化 React 应用性能的编译器和工具链。"}
+{"id":"gh:ahpxex/Aictionary","tags":["学习与教程","移动与桌面"],"summary":"桌面词典应用，提供快速查询与丰富释义。"}
+{"id":"gh:agefanscom/website","tags":["动漫与影视","资源下载"],"summary":"AGE 动漫官网的网址发布页，用于获取最新可用入口。"}
+{"id":"gh:afunc233/Komiic","tags":["动漫与影视","移动与桌面"],"summary":"漫画平台 Komiic 的第三方桌面客户端。"}
+{"id":"gh:actuallymentor/battery","tags":["移动与桌面","自托管与硬件"],"summary":"用于管理 Apple 芯片 Mac 电池充电状态的命令行与图形工具。"}
+{"id":"gh:abi/screenshot-to-code","tags":["AI与模型","前端与UI"],"summary":"将界面截图转换为 HTML、Tailwind、React 或 Vue 代码的工具。"}
+{"id":"gh:Zeyi-Lin/HivisionIDPhotos","tags":["设计素材","AI与模型"],"summary":"轻量级 AI 证件照制作工具，支持抠图、换背景与排版。"}
+{"id":"gh:YunYouJun/cook","tags":["生活与消费"],"summary":"以网页形式呈现的菜谱教程项目。"}
+{"id":"gh:Yorick-Ryu/deep-share","tags":["浏览器扩展","效率与办公","AI与模型"],"summary":"从 AI 对话中复制公式、导出 Word 文档并截取长对话的浏览器扩展。"}
+{"id":"gh:YishenTu/claudian","tags":["效率与办公","AI与模型"],"summary":"在 Obsidian 仓库中嵌入 Claude Code 等编码代理的插件。"}
+{"id":"gh:Yeachan-Heo/oh-my-codex","tags":["AI与模型","开发工具"],"summary":"为 Codex 增加钩子、代理团队与界面增强的扩展工具集。"}
+{"id":"gh:YaoFANGUK/video-subtitle-remover","tags":["动漫与影视","AI与模型"],"summary":"基于 AI 去除视频或图片中硬字幕与文字水印的工具。"}
+{"id":"gh:YaoFANGUK/video-subtitle-extractor","tags":["动漫与影视","OCR与文档"],"summary":"从视频画面中提取硬字幕并生成 SRT 字幕文件的图形工具。"}
+{"id":"gh:YTwsy/OpenSurge-for-Mac","tags":["运维与网络","移动与桌面"],"summary":"面向 macOS 的旁路由式家庭网关与控制面板，支持分流与 DNS 管理。"}
+{"id":"gh:YJammak/Weather","tags":["生活与消费","移动与桌面"],"summary":"使用 WPF 编写的日历天气桌面小程序。"}
+{"id":"gh:XionWin/Mac-Dock-Bar","tags":["移动与桌面","前端与UI"],"summary":"用 WPF 实现仿 macOS Dock 栏的练习项目。"}
+{"id":"gh:XamlAnimatedGif/XamlAnimatedGif","tags":["前端与UI","开发工具"],"summary":"在 WPF 应用中显示动图 GIF 的控件库。"}
+{"id":"gh:XPoet/picx","tags":["自托管与硬件","设计素材","前端与UI"],"summary":"基于 GitHub 仓库的在线图床与图片处理平台。"}
+{"id":"gh:XIU2/UserScript","tags":["浏览器扩展","效率与办公"],"summary":"作者自用的油猴脚本集合，提供网页功能增强。"}
+{"id":"gh:Wouterdek/NodeNetwork","tags":["前端与UI","开发工具"],"summary":"基于 ReactiveUI 的 WPF 节点编辑器控件库。"}
+{"id":"gh:WhatTheBlock/WindowsSimplify","tags":["移动与桌面","运维与网络"],"summary":"提供精简版 Windows 系统镜像的项目。"}
+{"id":"gh:WeberJulian/AI-voice-chat","tags":["AI与模型","音乐与音频"],"summary":"支持语音对话的 AI 助手演示，整合语音识别与语音合成。"}
+{"id":"gh:Wbooru/Wbooru","tags":["动漫与影视","设计素材","移动与桌面"],"summary":"支持 Danbooru 等图站的桌面图片浏览与管理工具。"}
+{"id":"gh:WPFDevelopersOrg/WPFDevelopers.Avalonia","tags":["前端与UI","开发工具"],"summary":"面向 Avalonia 的界面控件库。"}
+{"id":"gh:WPFDevelopersOrg/WPFDevelopers","tags":["前端与UI","开发工具"],"summary":"WPF 基础控件与自定义控件库，包含截图等组件。"}
+{"id":"gh:WPFDevelopersOrg/Nimble","tags":["效率与办公","移动与桌面"],"summary":"Windows 桌面快捷启动小部件。"}
+{"id":"gh:WEIFENG2333/VideoCaptioner","tags":["动漫与影视","AI与模型"],"summary":"基于大模型的视频字幕生成、断句、校正与翻译工具。"}
+{"id":"gh:WEIFENG2333/AsrTools","tags":["音乐与音频","AI与模型"],"summary":"批量语音转文字工具，支持 SRT 与 TXT 输出且无需 GPU。"}
+{"id":"gh:W1ght/Niratan","tags":["学习与教程","移动与桌面"],"summary":"面向 macOS 的沉浸式语言学习套件。"}
+{"id":"gh:VoltAgent/awesome-design-md","tags":["设计素材","前端与UI"],"summary":"收集知名品牌设计系统的设计说明文件，供编码代理生成配套界面。"}
+{"id":"gh:Vinzent03/obsidian-git","tags":["效率与办公","开发工具"],"summary":"为 Obsidian 提供 Git 版本控制与自动提交同步的插件。"}
+{"id":"gh:VOICEVOX/voicevox_engine","tags":["音乐与音频","AI与模型"],"summary":"免费日语文本转语音软件 VOICEVOX 的语音合成引擎。"}
+{"id":"gh:VOICEVOX/voicevox","tags":["音乐与音频","移动与桌面"],"summary":"VOICEVOX 文本转语音软件的桌面编辑器。"}
+{"id":"gh:VERT-sh/VERT","tags":["OCR与文档","数据处理","移动与桌面"],"summary":"本地运行的开源文件格式转换工具，支持多种媒体与文档格式。"}
+{"id":"gh:Tyrrrz/CliWrap","tags":["开发工具","后端与数据库"],"summary":"用于在 .NET 中调用并管理命令行进程的库。"}
+{"id":"gh:TransWithAI/Faster-Whisper-TransWithAI-ChickenRice","tags":["音乐与音频","AI与模型","动漫与影视"],"summary":"基于 Faster Whisper 的日语音视频转写与中文翻译工具。"}
+{"id":"gh:Tianyu199509/DeskBox","tags":["效率与办公","移动与桌面"],"summary":"Windows 桌面整理工具，提供可自定义的桌面小部件。"}
+{"id":"gh:TheSGJ/nextjs-toploader","tags":["前端与UI","开发工具"],"summary":"为 Next.js 应用添加顶部加载进度条的组件。"}
+{"id":"gh:TheJoeFin/Text-Grab","tags":["OCR与文档","移动与桌面"],"summary":"Windows 平台的快速文字识别取字工具，支持后台运行与通知。"}
+{"id":"gh:TheAlgorithms/C-Sharp","tags":["学习与教程","开发工具"],"summary":"用 C# 实现常见算法与数据结构的教学仓库。"}
+{"id":"gh:The-Run-Philosophy-Organization/run","tags":["生活与消费","阅读与写作","学习与教程"],"summary":"整理移民与海外生活相关理论与经验的中文资料库。"}
+{"id":"gh:Tencent/BrowserSkill","tags":["AI与模型","浏览器扩展"],"summary":"让 AI 代理使用真实登录态浏览器执行自动化任务的命令行与扩展工具。"}
+{"id":"gh:TapXWorld/ChinaTextbook","tags":["学习与教程","资源下载"],"summary":"收录小学至大学各学科 PDF 教材的资源合集。"}
+{"id":"gh:TableProApp/TablePro","tags":["后端与数据库","移动与桌面"],"summary":"面向开发者的原生 macOS 数据库客户端。"}
+{"id":"gh:SuxueCode/WechatBakTool","tags":["效率与办公","移动与桌面"],"summary":"微信 PC 版聊天记录备份工具，可解密数据库并导出记录。"}
+{"id":"gh:Surbowl/ASP.NET-Core-RESTful-Note","tags":["后端与数据库","学习与教程"],"summary":"使用 ASP.NET Core 构建 RESTful API 的课程学习笔记。"}
+{"id":"gh:Supermedo/bloodborne_pc","tags":["游戏与模拟器"],"summary":"在 Windows 上原生运行《血源诅咒》的启动器与增强工具。"}
+{"id":"gh:SukkaW/speed.skk.moe","tags":["运维与网络","前端与UI"],"summary":"网络测速网站 speed.skk.moe 的源代码。"}
+{"id":"gh:SukkaW/location-guard-ng","tags":["浏览器扩展","安全与逆向"],"summary":"用于隐藏或伪造浏览器地理位置的油猴脚本。"}
+{"id":"gh:SukkaW/Make-Bilibili-Great-Than-Ever-Before","tags":["浏览器扩展","效率与办公"],"summary":"哔哩哔哩网页增强脚本的衍生版本，包含实验性功能。"}
+{"id":"gh:StarkShang/vite-plugin-chrome-extension","tags":["浏览器扩展","开发工具","前端与UI"],"summary":"用于将 Chrome 扩展打包为 Manifest V3 的 Vite 插件。"}
+{"id":"gh:SortableJS/react-sortablejs","tags":["前端与UI","开发工具"],"summary":"SortableJS 的 React 绑定组件，用于实现拖拽排序。"}
+{"id":"gh:Sonata1015/aegisub-karaoke-helper","tags":["动漫与影视","音乐与音频"],"summary":"基于 Aegisub 的卡拉 OK 字幕制作辅助脚本。"}
+{"id":"gh:SocialSisterYi/bilibili-API-collect","tags":["后端与数据库","数据处理"],"summary":"整理哔哩哔哩接口文档的项目，现已停止维护并关停。"}
+{"id":"gh:SocialSisterYi/bcut-asr","tags":["音乐与音频","动漫与影视","数据处理"],"summary":"调用必剪接口进行语音识别并输出 SRT 等格式字幕的 Python 工具。"}
+{"id":"gh:Snouzy/workout-cool","tags":["生活与消费","学习与教程"],"summary":"开源健身训练平台，可制定训练计划并记录进度。"}
+{"id":"gh:SmallRuralDog/vue3-music","tags":["音乐与音频","前端与UI"],"summary":"使用 Vue3 与 TypeScript 开发的音乐播放器。"}
+{"id":"gh:SingletonSean/wpf-tutorials","tags":["学习与教程","前端与UI"],"summary":"WPF 教学视频的配套示例代码。"}
+{"id":"gh:SincereCSL/Playgrounds","tags":["生活与消费","阅读与写作","学习与教程"],"summary":"汇总远程工作、求职与出海开发相关资源的清单。"}
+{"id":"gh:Shrey113/Android-Dex","tags":["移动与桌面","游戏与模拟器"],"summary":"让安卓设备在桌面系统上以窗口化方式运行应用的通用方案。"}
+{"id":"gh:ShouChenICU/WebCamera","tags":["运维与网络","移动与桌面"],"summary":"基于 WebRTC 的点对点网络摄像头实时监控工具。"}
+{"id":"gh:ShenQingchuan/Railgun","tags":["前端与UI","开发工具"],"summary":"基于 Vite 与 React 的项目起始模板。"}
+{"id":"gh:Scighost/Starward","tags":["游戏与模拟器","移动与桌面"],"summary":"米哈游系列游戏的第三方启动器。"}
+{"id":"gh:SakuraLLM/SakuraLLM","tags":["AI与模型","动漫与影视","阅读与写作"],"summary":"面向轻小说与 Galgame 的日中翻译大语言模型。"}
+{"id":"gh:SakiRinn/LiveCaptions-Translator","tags":["音乐与音频","AI与模型","移动与桌面"],"summary":"基于 Windows 实时字幕的音频语音翻译工具。"}
+{"id":"gh:SYSTRAN/faster-whisper","tags":["AI与模型","音乐与音频"],"summary":"基于 CTranslate2 的 Whisper 语音识别加速实现。"}
+{"id":"gh:RockxyApp/Rockxy","tags":["开发工具","安全与逆向","移动与桌面"],"summary":"原生 macOS HTTP 调试代理，可拦截并修改 HTTPS 请求。"}
+{"id":"gh:RexanWONG/text-behind-image","tags":["设计素材","前端与UI"],"summary":"在线生成文字置于图片主体之后的排版设计工具。"}
+{"id":"gh:RealKai42/qwerty-learner","tags":["学习与教程","效率与办公"],"summary":"结合键盘打字练习的英语单词记忆软件。"}
+{"id":"gh:RapidAI/RapidOCR","tags":["OCR与文档","AI与模型"],"summary":"基于多种推理后端的轻量级多语言文字识别工具库。"}
+{"id":"gh:Raphire/Win11Debloat","tags":["移动与桌面","效率与办公"],"summary":"用于移除 Windows 预装应用并关闭遥测的 PowerShell 脚本。"}
+{"id":"gh:RSSNext/Folo","tags":["阅读与写作","效率与办公","AI与模型"],"summary":"集成 AI 能力的 RSS 阅读器，支持多来源内容订阅。"}
+{"id":"gh:RICHQAQ/PasteMD","tags":["效率与办公","OCR与文档"],"summary":"将 Markdown 与 AI 对话内容一键粘贴到 Word、WPS 与 Excel 的工具。"}
+{"id":"gh:QwenAudio/SenseVoice","tags":["AI与模型","音乐与音频"],"summary":"支持多语言语音识别、语种检测与情感识别的开源模型。"}
+{"id":"gh:Predidit/Kazumi","tags":["动漫与影视","移动与桌面"],"summary":"基于自定义规则采集番剧并支持在线播放与弹幕的应用。"}
+{"id":"gh:PlexPt/awesome-chatgpt-prompts-zh","tags":["AI与模型","学习与教程"],"summary":"ChatGPT 中文提示词与使用指南合集。"}
+{"id":"gh:Planshit/Tai","tags":["效率与办公","移动与桌面"],"summary":"统计 Windows 软件使用时长与网站浏览时长的工具。"}
+{"id":"gh:PixiEditor/PixiEditor","tags":["设计素材","移动与桌面"],"summary":"面向 2D 图形与像素绘画的通用编辑器。"}
+{"id":"gh:Panuon/Panuon.WPF.UI-Cases","tags":["前端与UI","学习与教程"],"summary":"Panuon WPF 界面库的示例项目集合。"}
+{"id":"gh:Panuon/Panuon.WPF.UI","tags":["前端与UI","开发工具"],"summary":"专业的 WPF 界面控件与主题样式库。"}
+{"id":"gh:PantsuDango/Dango-Translator","tags":["OCR与文档","游戏与模拟器","动漫与影视"],"summary":"通过文字识别屏幕内容并实时翻译的游戏与漫画翻译工具。"}
+{"id":"gh:PKUFlyingPig/cs-self-learning","tags":["学习与教程","阅读与写作"],"summary":"计算机科学自学路线与课程资源指南。"}
+{"id":"gh:PKM-er/awesome-obsidian-zh","tags":["效率与办公","资源下载"],"summary":"汇总 Obsidian 中文插件、主题与学习资源的清单。"}
+{"id":"gh:OpenCut-app/OpenCut","tags":["动漫与影视","设计素材","移动与桌面"],"summary":"开源视频剪辑工具，可作为剪映的替代方案。"}
+{"id":"gh:OnlyFart/Elib2Ebook","tags":["资源下载","阅读与写作"],"summary":"从多个在线图书馆下载书籍并导出为 EPUB 等格式的工具。"}
+{"id":"gh:One-Studio/CSGO-Toolbox","tags":["游戏与模拟器","效率与办公"],"summary":"面向 CSGO 玩家的辅助工具集合。"}
+{"id":"gh:OdysseusYuan/Mocreak","tags":["效率与办公","移动与桌面"],"summary":"一键下载安装并激活 Windows 与 Office 的部署工具。"}
+{"id":"gh:NoHeartPen/awesome-japanese-study-tools","tags":["学习与教程","资源下载"],"summary":"汇总日语学习与日本生活工作相关资源的清单。"}
+{"id":"gh:Niko1221/Strata","tags":["AI与模型","开发工具"],"summary":"可在消费级硬件本地运行大模型的推理引擎，提供兼容接口。"}
+{"id":"gh:NLRX-WJC/Learn-Vue-Source-Code","tags":["前端与UI","学习与教程"],"summary":"讲解 Vue 源码实现原理的在线学习资料。"}
+{"id":"gh:NEKOparapa/AiNiee","tags":["AI与模型","游戏与模拟器","阅读与写作"],"summary":"面向游戏、小说、文档与字幕的长文本 AI 翻译工具。"}
+{"id":"gh:MoonTechLab/LunaTV","tags":["动漫与影视","自托管与硬件"],"summary":"可自部署的影视聚合播放站点项目。"}
+{"id":"gh:Moe-Sakura/SearchGal","tags":["游戏与模拟器","资源下载"],"summary":"聚合多个平台资源的 Galgame 搜索工具。"}
+{"id":"gh:MisterBooo/LeetCodeAnimation","tags":["学习与教程"],"summary":"用动画演示 LeetCode 题目解题思路的项目。"}
+{"id":"gh:MiniMax-AI/skills","tags":["AI与模型","开发工具"],"summary":"面向前端、全栈与移动开发的 AI 编码代理技能集合。"}
+{"id":"gh:MiniCodeMonkey/chief","tags":["AI与模型","开发工具"],"summary":"将开发任务拆分并循环驱动 Claude Code 完成的命令行工具。"}
+{"id":"gh:MichaelCade/90DaysOfDevOps","tags":["学习与教程","运维与网络"],"summary":"为期 90 天的 DevOps 系统学习路线与资料。"}
+{"id":"gh:MetaCubeX/mihomo","tags":["游戏与模拟器","数据处理"],"summary":"从 Mihomo 接口解析《崩坏：星穹铁道》数据的 Python 数据模型。"}
+{"id":"gh:Meowv/Blog","tags":["后端与数据库","学习与教程"],"summary":"基于 ABP 与 .NET 的前后端分离博客系统示例项目。"}
+{"id":"gh:MatsuriDayo/NekoBoxForAndroid","tags":["运维与网络","移动与桌面"],"summary":"安卓平台的通用代理客户端，支持多种协议。"}
+{"id":"gh:MarvNC/yomitan-dictionaries","tags":["学习与教程","阅读与写作"],"summary":"面向 Yomitan 的日语与中文词典资源集合。"}
+{"id":"gh:LuanRoger/electron-shadcn","tags":["前端与UI","移动与桌面"],"summary":"基于 Electron Forge 与 shadcn-ui 的桌面应用模板。"}
+{"id":"gh:LorisYounger/VPet","tags":["游戏与模拟器","移动与桌面"],"summary":"开源虚拟桌宠软件，可嵌入 WPF 应用。"}
+{"id":"gh:Likely7/Veyra-NRVideo","tags":["动漫与影视","移动与桌面"],"summary":"Windows 视频播放与采集增强工具，提供超分辨率与帧生成功能。"}
+{"id":"gh:Likely7/LikelySnpa","tags":["效率与办公","移动与桌面"],"summary":"面向知识内容创作者的录屏软件。"}
+{"id":"gh:LegadoTeam/legado","tags":["阅读与写作","移动与桌面"],"summary":"支持多种书源的安卓电子书阅读器。"}
+{"id":"gh:Lake1059/FFmpegFreeUI","tags":["音乐与音频","动漫与影视","移动与桌面"],"summary":"面向 Windows 的 ffmpeg 图形界面，用于视频压制与格式转换。"}
+{"id":"gh:LGUG2Z/komorebi","tags":["效率与办公","移动与桌面"],"summary":"适用于 Windows 的平铺式窗口管理器。"}
+{"id":"gh:LC044/WeChatMsg","tags":["效率与办公","数据处理"],"summary":"用于导出与分析微信聊天记录的工具。"}
+{"id":"gh:KrishKrosh/TrackWeight","tags":["自托管与硬件","生活与消费"],"summary":"将 Mac 触控板当作电子秤使用的实验工具。"}
+{"id":"gh:Kenshin/simpread","tags":["浏览器扩展","阅读与写作"],"summary":"提供沉浸式阅读模式的浏览器扩展。"}
+{"id":"gh:KartikLabhshetwar/better-shot","tags":["效率与办公","移动与桌面","设计素材"],"summary":"macOS 截图、录屏与视频编辑工具。"}
+{"id":"gh:Jskeaaa/cursor_pro","tags":["开发工具","安全与逆向"],"summary":"用于绕过 Cursor 模型使用限制的脚本，项目已失效。"}
+{"id":"gh:JohannesKaufmann/html-to-markdown","tags":["数据处理","OCR与文档"],"summary":"将 HTML 转换为 Markdown 的 Go 库，支持整站转换与自定义规则。"}
+{"id":"gh:Jinjinov/Hardware.Info","tags":["自托管与硬件","开发工具"],"summary":"跨平台读取电池、处理器、内存等硬件信息的 .NET 库。"}

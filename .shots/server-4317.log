@@ -1,0 +1,2 @@
+$ tsx src/server/index.ts
+TwitBookmark running at http://localhost:4317

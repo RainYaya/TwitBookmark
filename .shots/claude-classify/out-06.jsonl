@@ -1,0 +1,118 @@
+{"id":"gh:JimLiu/baoyu-skills","tags":["AI与模型","效率与办公"],"summary":"面向 Claude Code 与 Codex 的日常效率技能集合，包含二十余项技能。"}
+{"id":"gh:JimLiu/baoyu-design","tags":["设计素材","AI与模型","前端与UI"],"summary":"在本地以智能体技能方式生成界面原型、设计稿与线框图的工具。"}
+{"id":"gh:JimLiu/baocut","tags":["动漫与影视","AI与模型"],"summary":"带可编辑时间轴的 AI 视频代理，支持转写、字幕、翻译与剪辑。"}
+{"id":"gh:JefferyHcool/BiliNote","tags":["学习与教程","AI与模型"],"summary":"为视频自动生成笔记的 AI 工具。"}
+{"id":"gh:JeffersonQin/calibre-web-bgm","tags":["阅读与写作","动漫与影视"],"summary":"为 calibre-web 提供 Bangumi 元数据刮削的插件。"}
+{"id":"gh:JamesnetGroup/leagueoflegends-wpf","tags":["游戏与模拟器","前端与UI"],"summary":"使用 WPF 仿制《英雄联盟》客户端的界面示例。"}
+{"id":"gh:JOYCEQL/magic-resume","tags":["效率与办公","AI与模型"],"summary":"在线 AI 简历编辑工具，可生成与修改简历。"}
+{"id":"gh:JCodesMore/ai-website-cloner-template","tags":["AI与模型","前端与UI"],"summary":"借助 AI 编码代理一键克隆网站的项目模板。"}
+{"id":"gh:Inokinoki/ai-no-jimaku-gumi","tags":["动漫与影视","AI与模型"],"summary":"使用 AI 为视频生成与转换字幕的工具。"}
+{"id":"gh:Innei/ryugi","tags":["AI与模型","设计素材","开发工具"],"summary":"面向编码代理的技能集合，包含可评论文档与可视化工作台。"}
+{"id":"gh:InlitX/Obsidian-Dashboard-Gallery","tags":["效率与办公","设计素材"],"summary":"面向 Obsidian 个人知识库的仪表盘模板合集。"}
+{"id":"gh:IndieKKY/bilibili-subtitle","tags":["浏览器扩展","动漫与影视"],"summary":"哔哩哔哩字幕列表浏览器扩展，支持跳转、下载、总结与翻译字幕。"}
+{"id":"gh:ImageMagick/ImageMagick","tags":["数据处理","设计素材","开发工具"],"summary":"开源图像处理套件，支持两百多种格式的转换与命令行批量处理。"}
+{"id":"gh:Idered/chalk.ist","tags":["设计素材","开发工具","前端与UI"],"summary":"将源代码渲染为美观图片的在线工具。"}
+{"id":"gh:Huanshere/VideoLingo","tags":["动漫与影视","AI与模型","音乐与音频"],"summary":"全自动视频字幕切割、翻译、对齐与配音工具。"}
+{"id":"gh:HohShenYien/next-power-starter","tags":["前端与UI","开发工具"],"summary":"基于 Next.js 与 Tailwind 的前端项目起始模板。"}
+{"id":"gh:HeyPuter/everything","tags":["效率与办公","自托管与硬件"],"summary":"开源重建常用商业软件的项目集合，覆盖办公与设计等方向。"}
+{"id":"gh:HenJigg/wpf-abp","tags":["前端与UI","后端与数据库"],"summary":"基于 ABP 框架的跨平台移动端与 WPF 客户端示例。"}
+{"id":"gh:HaujetZhao/QuickCut","tags":["动漫与影视","移动与桌面"],"summary":"便捷的视频处理软件，提供常用剪辑与转码功能。"}
+{"id":"gh:Guovin/iptv-api","tags":["资源下载","运维与网络","动漫与影视"],"summary":"自动采集、校验并生成 IPTV 直播源的工具，支持多种输出格式。"}
+{"id":"gh:Glimesh/broadcast-box","tags":["运维与网络","音乐与音频"],"summary":"开箱即用的直播推流服务。"}
+{"id":"gh:GitAgentHQ/git-agent-cli","tags":["开发工具","AI与模型"],"summary":"利用大模型分析改动并拆分原子提交、生成提交信息的 Git 命令行工具。"}
+{"id":"gh:Gar-b-age/CookLikeHOC","tags":["生活与消费","阅读与写作"],"summary":"整理老乡鸡菜品做法与来源报告的中文菜谱项目。"}
+{"id":"gh:GakkiNoOne/hajimi-king","tags":["安全与逆向","AI与模型","数据处理"],"summary":"通过 GitHub 代码搜索收集 Gemini 接口密钥的扫描工具。"}
+{"id":"gh:GUI-for-Cores/GUI.for.SingBox","tags":["运维与网络","移动与桌面"],"summary":"基于 Wails 与 Vue3 的 sing-box 图形客户端。"}
+{"id":"gh:Frost819/newBV","tags":["动漫与影视","移动与桌面"],"summary":"哔哩哔哩第三方 Android TV 客户端的分支修改版。"}
+{"id":"gh:FluidInference/FluidAudio","tags":["音乐与音频","AI与模型","移动与桌面"],"summary":"面向 Apple 平台的 CoreML 音频模型库，支持语音识别与合成。"}
+{"id":"gh:Flow-Launcher/Flow.Launcher","tags":["效率与办公","移动与桌面"],"summary":"Windows 平台的快速文件搜索与应用启动器，支持社区插件。"}
+{"id":"gh:Fission-AI/OpenSpec","tags":["AI与模型","开发工具"],"summary":"面向 AI 编码助手的规范驱动开发工作流工具。"}
+{"id":"gh:FakeItEasy/FakeItEasy","tags":["开发工具","后端与数据库"],"summary":".NET 平台的模拟对象测试库。"}
+{"id":"gh:Evavic44/portfolio-ideas","tags":["设计素材","前端与UI"],"summary":"开发者与设计师作品集网站的创意案例合集。"}
+{"id":"gh:Eugeny/tabby","tags":["开发工具","移动与桌面"],"summary":"支持 SSH、串口与远程连接的现代终端模拟器。"}
+{"id":"gh:EstrellaXD/Auto_Bangumi","tags":["动漫与影视","资源下载","自托管与硬件"],"summary":"自动追番下载工具，可配合 qBittorrent 与 RSS 使用。"}
+{"id":"gh:EmbraceAGI/awesome-chatgpt-zh","tags":["AI与模型","学习与教程"],"summary":"ChatGPT 中文使用指南与资源清单。"}
+{"id":"gh:ELY-Open-Source/ElyOffice","tags":["效率与办公","移动与桌面"],"summary":"基于 Rust 与 GPUI 的离线优先办公套件。"}
+{"id":"gh:Dunqing/resume","tags":["效率与办公","前端与UI"],"summary":"用 Markdown 编写简历并部署到静态托管平台的工具。"}
+{"id":"gh:Doublevil/JmdictFurigana","tags":["学习与教程","阅读与写作"],"summary":"为日语词典词条自动标注振假名的数据资源。"}
+{"id":"gh:Dineshkarthik/telegram_media_downloader","tags":["资源下载","数据处理"],"summary":"从 Telegram 会话与频道批量下载媒体文件的工具。"}
+{"id":"gh:DefinitelyTyped/DefinitelyTyped","tags":["开发工具","前端与UI"],"summary":"收集高质量 TypeScript 类型定义的仓库。"}
+{"id":"gh:Decohererk/DecoTV","tags":["动漫与影视","自托管与硬件"],"summary":"基于 LunaTV 二次开发的跨平台影视聚合播放站。"}
+{"id":"gh:DayBreak-u/chineseocr_lite","tags":["OCR与文档","AI与模型"],"summary":"超轻量级中文文字识别项目，支持竖排文字与多种推理后端。"}
+{"id":"gh:Darkstarrd-dev/anyrouter-opencode-bridge","tags":["运维与网络","AI与模型","开发工具"],"summary":"为 OpenCode 接入 AnyRouter 接口解决请求校验问题的本地代理桥接工具。"}
+{"id":"gh:DJTB/react-furi","tags":["前端与UI","学习与教程"],"summary":"在 React 中为日文汉字标注振假名的组件。"}
+{"id":"gh:Const-me/Whisper","tags":["AI与模型","音乐与音频"],"summary":"使用 GPU 加速的 Whisper 语音识别推理实现。"}
+{"id":"gh:CheshireCC/faster-whisper-GUI","tags":["音乐与音频","AI与模型","移动与桌面"],"summary":"faster-whisper 的图形界面，用于音频转写。"}
+{"id":"gh:ChathurangaVKD/AWS-Certified-Solutions-Architect-Associate-SAA-C03","tags":["学习与教程","运维与网络"],"summary":"AWS 解决方案架构师认证的学习笔记、架构图与实验资料。"}
+{"id":"gh:ChatGPTNextWeb/NextChat","tags":["AI与模型","移动与桌面"],"summary":"跨平台 AI 聊天客户端，支持多家模型服务。"}
+{"id":"gh:ChatGPTBox-dev/chatGPTBox","tags":["浏览器扩展","AI与模型"],"summary":"将 ChatGPT 深度集成到网页中的浏览器扩展。"}
+{"id":"gh:Chanzhaoyu/admin-one-vue","tags":["前端与UI","后端与数据库"],"summary":"基于 Vue3、Tailwind 与 Vite 的后台管理面板模板。"}
+{"id":"gh:CatsJuice/sticker-forge","tags":["设计素材","前端与UI"],"summary":"带富文本与图片上传的 WebGL 贴纸制作工具。"}
+{"id":"gh:CatMuse/HiWords","tags":["学习与教程","浏览器扩展"],"summary":"在阅读网页时自动高亮并翻译生词以积累词汇的工具。"}
+{"id":"gh:CaliCastle/cali.so","tags":["前端与UI","设计素材"],"summary":"个人网站源码，使用 Next.js 与 Tailwind CSS 构建。"}
+{"id":"gh:Calcium-Ion/AstrLink","tags":["AI与模型","运维与网络"],"summary":"本地 AI 网关，统一管理订阅与接口提供商并支持智能路由。"}
+{"id":"gh:CYH5077/SimpleBoard","tags":["运维与网络","移动与桌面"],"summary":"用于监控 Linux 服务器处理器、内存与网络的工具。"}
+{"id":"gh:C-Loftus/QuickPiperAudiobook","tags":["音乐与音频","OCR与文档"],"summary":"将电子书或文档转换为有声书的命令行工具。"}
+{"id":"gh:ByteByteGoHq/system-design-101","tags":["学习与教程","后端与数据库"],"summary":"用图解与通俗语言讲解系统设计的面试学习资料。"}
+{"id":"gh:BigPizzaV3/CodexPlusPlus","tags":["AI与模型","开发工具"],"summary":"面向 Codex 的增强工具，改善其使用体验。"}
+{"id":"gh:BerriAI/litellm","tags":["AI与模型","后端与数据库"],"summary":"统一调用多家大模型接口的网关库，支持计费与负载均衡。"}
+{"id":"gh:BITNP/BIThesis","tags":["OCR与文档","学习与教程"],"summary":"北京理工大学学位论文的 LaTeX 模板集合。"}
+{"id":"gh:BCUninstaller/Bulk-Crap-Uninstaller","tags":["移动与桌面","效率与办公"],"summary":"用于批量卸载 Windows 应用的清理工具。"}
+{"id":"gh:Ayanaminn/N46Whisper","tags":["动漫与影视","AI与模型"],"summary":"基于 Whisper 的日语字幕生成工具。"}
+{"id":"gh:Arthur-Ficial/ohr","tags":["音乐与音频","开发工具"],"summary":"面向 Apple 平台的本地语音转文字命令行与兼容服务。"}
+{"id":"gh:Arman19941113/dnd-resume","tags":["效率与办公","前端与UI"],"summary":"在线简历生成工具，支持拖拽编辑与模板套用。"}
+{"id":"gh:Archmage83/tvapk","tags":["资源下载","动漫与影视"],"summary":"收集安卓电视应用安装包与影视应用的资源仓库。"}
+{"id":"gh:AntonOsika/gpt-engineer","tags":["AI与模型","开发工具"],"summary":"通过自然语言描述生成代码库的命令行实验平台。"}
+{"id":"gh:AntiMicroX/antimicrox","tags":["游戏与模拟器","移动与桌面"],"summary":"将键盘鼠标按键映射为手柄输入的图形工具。"}
+{"id":"gh:Anduin2017/HowToCook","tags":["生活与消费","阅读与写作"],"summary":"面向程序员的家庭烹饪菜谱指南。"}
+{"id":"gh:AmineDjeghri/personal-os-setup","tags":["效率与办公","移动与桌面","运维与网络"],"summary":"用于配置 Windows、Linux 与 macOS 开发环境的应用与指南。"}
+{"id":"gh:AmanVarshney01/create-better-t-stack","tags":["开发工具","前端与UI","后端与数据库"],"summary":"用于快速搭建端到端类型安全 TypeScript 项目的命令行工具。"}
+{"id":"gh:AIGCDesignGroup/ReplaceAnything","tags":["设计素材","AI与模型"],"summary":"基于生成模型的高质量图像内容替换研究项目。"}
+{"id":"gh:78/xiaozhi-esp32","tags":["自托管与硬件","AI与模型"],"summary":"基于 MCP 的 ESP32 聊天机器人项目。"}
+{"id":"gh:666ghj/BettaFish","tags":["数据处理","AI与模型"],"summary":"多智能体舆情分析工具，用于信息聚合、情感分析与趋势预测。"}
+{"id":"gh:666OS/ClashMac","tags":["运维与网络","移动与桌面"],"summary":"面向 macOS 的原生 Clash 代理客户端。"}
+{"id":"gh:521xueweihan/HelloGitHub","tags":["资源下载","社区与论坛"],"summary":"定期分享 GitHub 上有趣入门级开源项目的月刊。"}
+{"id":"gh:403errors/repomind","tags":["数据处理","AI与模型","开发工具"],"summary":"使用 AI 分析 GitHub 仓库与开发者主页并生成架构图与安全审计的工具。"}
+{"id":"gh:2noise/ChatTTS","tags":["AI与模型","音乐与音频"],"summary":"面向日常对话场景的生成式语音合成模型。"}
+{"id":"gh:2025Emma/vibe-coding-cn","tags":["学习与教程","AI与模型"],"summary":"关于与 AI 结对编程的 Vibe Coding 中文实践指南。"}
+{"id":"gh:1357310795/MyComputerManager","tags":["移动与桌面","效率与办公"],"summary":"用于管理 Windows“此电脑”中快捷方式与侧边栏项的工具。"}
+{"id":"b216223654d6","tags":["游戏与模拟器","资源下载"],"summary":"提供 Switch 模拟器解密密钥与固件资源的下载页面。"}
+{"id":"40bbf21708b7","tags":["资源下载","运维与网络"],"summary":"支持上传大容量文件的免费在线文件共享服务。"}
+{"id":"2aae2c31dcaa","tags":["游戏与模拟器","资源下载"],"summary":"提供 Switch 游戏资源下载的网站。"}
+{"id":"tw:2117165022954799479","tags":["移动与桌面"],"summary":"用户分享在安卓手机上体验桌面化方案的使用感受。"}
+{"id":"tw:2117138385168900320","tags":["生活与消费","阅读与写作"],"summary":"分享高智商注意缺陷多动障碍人群生存经验相关内容的推文。"}
+{"id":"tw:2117131523086311692","tags":["游戏与模拟器","资源下载"],"summary":"推荐 Switch 模拟器解密密钥与固件资源下载项目的推文。"}
+{"id":"tw:2117093182441972165","tags":["安全与逆向","AI与模型"],"summary":"介绍一个通过系统观测与代码生成来重构封闭软件的逆向工程项目的推文。"}
+{"id":"tw:2117079231771595008","tags":["效率与办公","社区与论坛"],"summary":"作者开源自用信息流应用以替代刷推与 Discord 的推文。"}
+{"id":"tw:2116945895015231669","tags":["安全与逆向","开发工具"],"summary":"西班牙语推文，介绍用于搭建逆向工程环境的 GitHub 仓库合集。"}
+{"id":"tw:2116906375502831854","tags":["AI与模型","开发工具"],"summary":"询问多智能体协作工具 herdr 最佳实践与适用场景的推文。"}
+{"id":"04744e9eb674","tags":["学习与教程","数据处理","阅读与写作"],"summary":"展示 1949 年以来中国疆域政区与古今地名变迁的交互地图。"}
+{"id":"tw:2116797957454401746","tags":["开发工具","运维与网络"],"summary":"分享优化 GitHub Actions 持续集成耗时方法的推文。"}
+{"id":"tw:2116776248970023399","tags":["自托管与硬件","移动与桌面"],"summary":"介绍将米家设备控制集成到桌面菜单栏与托盘项目的推文。"}
+{"id":"eb57c9c286ca","tags":["成人内容","社区与论坛"],"summary":"成人论坛站点中的一篇讨论帖页面。"}
+{"id":"b055eae8b33f","tags":["成人内容"],"summary":"成人影片站点上的影片播放页面。"}
+{"id":"0d3ed0c026ac","tags":["成人内容"],"summary":"成人影片站点上的影片播放页面。"}
+{"id":"tw:2115366100221501540","tags":["AI与模型","学习与教程"],"summary":"分享 AI 编码最佳实践规则供他人复用的推文。"}
+{"id":"tw:2114718528591057375","tags":["移动与桌面","开发工具"],"summary":"讨论在安卓设备上开启开发者调试选项的推文。"}
+{"id":"tw:2114704821852991771","tags":["动漫与影视","AI与模型","设计素材"],"summary":"展示用单张立绘实时驱动角色动作与表情项目的推文。"}
+{"id":"tw:2114696136774869085","tags":["AI与模型","动漫与影视","效率与办公"],"summary":"介绍将录音交给 AI 自动生成画面与剪辑效果的技能。"}
+{"id":"tw:2114682605283250415","tags":["生活与消费"],"summary":"用户谈论某项订阅服务可长期购买并权衡开销的推文。"}
+{"id":"tw:2114640519724781679","tags":["AI与模型","学习与教程"],"summary":"讨论希望 AI 将收集的信息重组为便于阅读学习形式的推文。"}
+{"id":"tw:2113982577925353743","tags":["AI与模型","开发工具"],"summary":"推荐 OpenCode 项目代理说明文件中编码规范内容的推文。"}
+{"id":"tw:2113933520620175373","tags":["AI与模型","阅读与写作"],"summary":"分享使用 Gemini 搭配中文润色技能改善 AI 文笔经验的推文。"}
+{"id":"tw:2113833330429083662","tags":["AI与模型"],"summary":"分享通过调整模型神经元激活来改变 Qwen 行为的实验方法。"}
+{"id":"tw:2113435255717965941","tags":["成人内容","AI与模型"],"summary":"推荐一个标注为成人内容的项目的推文。"}
+{"id":"tw:2113330898535895165","tags":["前端与UI","AI与模型","设计素材"],"summary":"分享用于让 AI 按获奖级视觉标准改造网页的提示词。"}
+{"id":"tw:2113203418080985347","tags":["AI与模型","开发工具"],"summary":"分享新设备上快速配置 AI 代理与模型服务工具经验的推文。"}
+{"id":"tw:2113162522597724258","tags":["开发工具","运维与网络"],"summary":"介绍终端工具 Kaku 新增浏览器远程使用功能的推文。"}
+{"id":"tw:2113085361836744764","tags":["前端与UI","AI与模型"],"summary":"分享在代理说明文件中加入规则以改善 AI 生成界面观感的推文。"}
+{"id":"tw:2112711310458925413","tags":["生活与消费","效率与办公"],"summary":"分享通过缩短行动链路来养成好习惯的推文。"}
+{"id":"tw:2112452687535226944","tags":["移动与桌面","AI与模型"],"summary":"介绍借助 Claude 改造小米电视界面风格的推文。"}
+{"id":"870541b16305","tags":["浏览器扩展","安全与逆向"],"summary":"位置伪造脚本的设置页面，用于配置隐私相关选项。"}
+{"id":"68741aa2fcc0","tags":["运维与网络"],"summary":"用于测试网络上传下载速度的网页工具。"}
+{"id":"03f7b33842b7","tags":["运维与网络"],"summary":"查询本机 IP 地址及归属地的网页工具。"}
+{"id":"tw:2112244985156481059","tags":["前端与UI","AI与模型"],"summary":"分享前端开发提示词，约定组件库、图标与状态管理选型的推文。"}
+{"id":"tw:2112202220024238517","tags":["游戏与模拟器"],"summary":"葡萄牙语推文，介绍宝可梦游戏在 PC 原生运行的新版本。"}
+{"id":"tw:2112199110438826359","tags":["运维与网络","前端与UI"],"summary":"作者分享用 AI 编写测速网站并提供访问链接的推文。"}
+{"id":"tw:2112169810050097231","tags":["效率与办公","AI与模型"],"summary":"介绍用 Claude Code 构建的开源求职工具，可匹配岗位并调整简历。"}
+{"id":"tw:2111825971913384352","tags":["游戏与模拟器"],"summary":"葡萄牙语推文，讨论某游戏移植项目被大量分支并已加入快进功能。"}
